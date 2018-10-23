@@ -2,6 +2,15 @@ body {
     background-color: rgb(165, 235, 235);
 }
 
+.camera {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+
 .header {
     overflow: hidden;
     background-color: #f1f1f1;
