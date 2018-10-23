@@ -1,10 +1,37 @@
+body {
+    background-color: rgb(165, 235, 235);
+}
+
+.header {
+    overflow: hidden;
+    background-color: #f1f1f1;
+    padding: 20px 10px;
+  }
+  
+  .header h1 {
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px; 
+    line-height: 25px;
+    border-radius: 4px;
+  }
+  
+  .header h1.logo {
+    font-size: 45px;
+    font-weight: bold;
+  }
+  
+
 footer {
     background-color: beige;
     color: black;
-    font-size: 20px;
+    font-size: 15px;
     width: 100%;
     position: fixed;
     bottom: 0px;
     text-align: center;
-    padding: 20px;
+    padding: 10px;
 }
