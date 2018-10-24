@@ -1,6 +1,3 @@
-/*const MongoClient = require('mongodb').MongoClient;
-const url = "mongodb://localhost:27017/";*/
-
 let scanner = new Instascan.Scanner(
     {
         video: document.getElementById('preview')
@@ -27,7 +24,7 @@ Instascan.Camera.getCameras().then(cameras =>
     } else{
         console.log("No existe dispositivo de cámara");
         
-        /*content='Tlaxcala-01'
+        /*content='Tlaxcala-05'
         
         var xhr = new XMLHttpRequest();
         xhr.open('GET', 'http://localhost:3000/qrdata/'+content, true);
@@ -37,15 +34,6 @@ Instascan.Camera.getCameras().then(cameras =>
             console.log('Entro en XHR');
         };
         xhr.send();*/
-        /*MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("QR");
-            var myobj = { name: "Company Inc", address: "Highway 37" };
-            dbo.collection("ID_Raspberry").insertOne(myobj, function(err, res) {
-                if (err) throw err;
-                console.log("1 document inserted");
-                db.close();
-            });
-            });*/
+
     }
 });
