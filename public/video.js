@@ -5,7 +5,7 @@ let scanner = new Instascan.Scanner(
 );
 scanner.addListener('scan',function(content){
     //console.log('' + content);
-    alert('Escaneo de contenido de código QR');
+    alert('Escaneo de código QR realizado');
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'https://qr-lector.herokuapp.com/qrdata/'+content, true);

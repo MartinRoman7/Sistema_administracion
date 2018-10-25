@@ -52,7 +52,7 @@ app.get('/qrdata/:id', function (req, res) {
          
           slack.webhook({
             channel: "aws-iot-fundacion",
-            text: "El identificador " + id + " se ha rechazado ya que existe en la base de datos",
+            text: "El identificador " + id + " se ha rechazado ya que existe en la base de datos.",
           }, function(err, response) {
             console.log(response);
           });
@@ -64,7 +64,7 @@ app.get('/qrdata/:id', function (req, res) {
 
             slack.webhook({
               channel: "aws-iot-fundacion",
-              text: "El identificador " + id + " se ha registrado en la base de datos",
+              text: "El identificador " + id + " se ha registrado en la base de datos.",
             }, function(err, response) {
               console.log(response);
             });
