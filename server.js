@@ -1,3 +1,10 @@
+/*
+  git add .
+  git commit -m "Segundo commit de qr lector"
+  git status
+  heroku git:remote -a qr-lector
+  git push heroku master
+*/
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
