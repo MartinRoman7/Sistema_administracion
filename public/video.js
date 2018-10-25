@@ -4,15 +4,15 @@ let scanner = new Instascan.Scanner(
     }
 );
 scanner.addListener('scan',function(content){
-    console.log('' + content);
-    alert('Escaneo de contenido: ' + content);
+    //console.log('' + content);
+    alert('Escaneo de contenido de código QR');
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'https://qr-lector.herokuapp.com/qrdata/'+content, true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         // do something to response
-        console.log('Entro en XHR');
+        //console.log('Entro en XHR');
     };
     xhr.send();
 });
