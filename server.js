@@ -3,7 +3,6 @@ const app = express()
 const bodyParser = require('body-parser')
 //const mongoose = require('mongoose');
 
-
 // MongoDB
 // Name DB: id_qr
 // User: mongodb
@@ -12,6 +11,13 @@ const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient;
 //const url = "mongodb://localhost:27017/";
 const url = "mongodb://mongodb:mongodb123@ds241493.mlab.com:41493/id_qr"
+
+// Notificaciones Slack
+var Slack = require('slack-node');
+webhookUri = "https://hooks.slack.com/services/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";
+slack = new Slack();
+slack.setWebhook(webhookUri);
+
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -36,12 +42,27 @@ app.get('/qrdata/:id', function (req, res) {
         else{
         if (result.length){
           console.log('El identificador ya se encuentra en la base de datos');
+         
+          slack.webhook({
+            channel: "aws-iot-fundacion",
+            text: "El identificador " + id + " se ha rechazado ya que existe en la base de datos",
+          }, function(err, response) {
+            console.log(response);
+          });
+
         }else{
           dbo.collection("ID_Raspberry").insertOne(myobj, function(err, res) {
             if (err) throw err;
-            console.log('1 document inserted');
+            console.log('El identificador se agregó en la base de datos');
+
+            slack.webhook({
+              channel: "aws-iot-fundacion",
+              text: "El identificador " + id + " se ha registrado en la base de datos",
+            }, function(err, response) {
+              console.log(response);
+            });
+
           });
-          console.log('El identificador se agregó en la base de datos');
         }
         console.log(result);
         client.close();
