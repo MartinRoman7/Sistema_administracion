@@ -5,12 +5,9 @@ body {
     background-position: absolute;
 }
 
-video {
+.camera {
     width: 50%;
     height: auto;
-}
-
-.camera {
     margin: 0;
     position: absolute;
     top: 50%;
