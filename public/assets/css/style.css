@@ -1,9 +1,9 @@
 body {
     background-image: url("https://github.com/MartinRoman7/AWS-IoT/blob/master/cadena_frio.png?raw=true");
     background-repeat: no-repeat;
-    background: 100% auto;
+    background-size: 100em auto;
     background-position: absolute;
-    width: 100%;
+    width: 100em;
     height: auto;
 }
 
