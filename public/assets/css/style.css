@@ -1,5 +1,7 @@
 body {
-    background-color: rgb(165, 235, 235);
+    background-image: url("https://github.com/MartinRoman7/AWS-IoT/blob/master/cadena_frio.png?raw=true");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 
 .camera {
