@@ -1,17 +1,15 @@
 body {
     background-image: url("https://github.com/MartinRoman7/AWS-IoT/blob/master/cadena_frio.png?raw=true");
     background-repeat: no-repeat;
-    background-size: 100em auto;
+    background-size: 100% 55em;
     background-position: absolute;
-    width: 100em;
-    height: auto;
 }
 
 .camera {
     margin: 0;
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 35%;
+    left: 48%;
     margin-right: -50%;
     transform: translate(-50%, -50%)
 }
