@@ -1,7 +1,7 @@
 body {
     background-image: url("https://github.com/MartinRoman7/AWS-IoT/blob/master/cadena_frio.png?raw=true");
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: cover;
 }
 
 .camera {
@@ -14,7 +14,6 @@ body {
 }
 
 .header h1.logo {
-    background-color: #f1f1f1;
     padding: 20px 20px;
     font-size: 35px;
     font-weight: bold;
