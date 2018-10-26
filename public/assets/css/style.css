@@ -5,6 +5,11 @@ body {
     background-position: absolute;
 }
 
+video {
+    width: 50%;
+    height: auto;
+}
+
 .camera {
     margin: 0;
     position: absolute;
