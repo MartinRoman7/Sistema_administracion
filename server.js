@@ -11,17 +11,13 @@ const bodyParser = require('body-parser')
 //const mongoose = require('mongoose');
 
 // MongoDB
-// Name DB: id_qr
-// User: mongodb
-// Pass: mongodb123
-// Enlace: mongodb://<dbuser>:<dbpassword>@ds241493.mlab.com:41493/id_qr
 const MongoClient = require('mongodb').MongoClient;
 //const url = "mongodb://localhost:27017/";
-const url = "mongodb://mongodb:mongodb123@ds241493.mlab.com:41493/id_qr"
+const url = "mongodb://<dbuser>:<dbpassword>@DB:Port/DB_name"
 
 // Notificaciones Slack
 var Slack = require('slack-node');
-webhookUri = "https://hooks.slack.com/services/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";
+webhookUri = "<Token Webhook>";
 slack = new Slack();
 slack.setWebhook(webhookUri);
 
