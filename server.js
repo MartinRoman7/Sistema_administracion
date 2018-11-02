@@ -17,8 +17,8 @@ const bcrypt = require('bcryptjs');
 // Pass: mongodb123
 // Enlace: mongodb://<dbuser>:<dbpassword>@ds241493.mlab.com:41493/id_qr
 const MongoClient = require('mongodb').MongoClient;
-const url = "mongodb://localhost:27017/QR";
-//const url = "mongodb://mongodb:mongodb123@ds241493.mlab.com:41493/id_qr"
+//const url = "mongodb://localhost:27017/QR";
+const url = "mongodb://mongodb:mongodb123@ds241493.mlab.com:41493/id_qr"
 
 // Notificaciones Slack
 var Slack = require('slack-node');
@@ -66,7 +66,7 @@ app.post('/inicio_sesion', (req, res) => {
 
   MongoClient.connect(url, function(err, client) {
     if (err) throw err;
-    var dbo = client.db("QR"); 
+    var dbo = client.db("id_qr"); 
     var userobj = { usuario: user }
 
     dbo.collection("Users").findOne(userobj, function(err, result) {
@@ -130,7 +130,7 @@ app.post('/registro', (req, res) => {
       
       MongoClient.connect(url, function(err, client) {
         if (err) throw err;
-        var dbo = client.db("QR"); 
+        var dbo = client.db("id_qr"); 
     
         dbo.collection("Users").find(userobj).toArray(function(err, result) {
           if (err) throw err;
@@ -220,7 +220,7 @@ app.post('/quotes', (req, res) => {
 
   MongoClient.connect(url, function(err, client) {
     if (err) throw err;
-    var dbo = client.db("QR"); 
+    var dbo = client.db("id_qr"); 
 
     dbo.collection("ID_Raspberry").insertOne(body, function(err, result) {
       if (err) throw err;
@@ -248,7 +248,7 @@ app.post('/buscar', (req, res) => {
 
   MongoClient.connect(url, function(err, client) {
     if (err) throw err;
-    var dbo = client.db("QR"); 
+    var dbo = client.db("id_qr"); 
   
     dbo.collection("ID_Raspberry").find(objcodigo).toArray(function(err, result) {
       if (err) throw err;
