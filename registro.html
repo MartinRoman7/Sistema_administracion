@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <script type="text/javascript" src="assets/js/instascan.min.js"></script>
+    <link rel="stylesheet" href="assets/css/style_index.css">
+    
+    <script>
+        function validateData() {
+            var x = document.forms["Access"]["name"].value;
+            var y = document.forms["Access"]["password"].value;
+            if (x == "" || y == "") {
+                alert("Los campos deben tener valores");
+                return false;
+            }
+        }
+    </script>
+
+    <title>Registro</title>
+
+</head>
+<body>
+    <h1>Registro</h1>
+    <form name="Access" onsubmit="return validateData()" action="/registro" method="POST">
+        <p>Ingrese su usuario y contraseña para dar de alta en el sistema</p>
+        <input type="text" placeholder="name" name="name">
+        <input type="password" placeholder="password" name="password">
+        <button type="submit">Aceptar</button>
+      </form>
+
+</body>
+</html>

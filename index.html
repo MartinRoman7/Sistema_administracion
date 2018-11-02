@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <script type="text/javascript" src="assets/js/instascan.min.js"></script>
+    <link rel="stylesheet" href="assets/css/style_index.css">
+    
+    <script>
+        function validateData() {
+            var x = document.forms["Access"]["name"].value;
+            var y = document.forms["Access"]["password"].value;
+            if (x == "" || y == "") {
+                alert("Los campos deben tener valores");
+                return false;
+            }
+        }
+    </script>
+
+    <title>Inico de Sesión</title>
+
+</head>
+<body>
+    <h1>Inicio de sesión</h1>
+    <!-- <form action="/quotes" method="POST">
+        <input type="text" placeholder="name" name="name">
+        <input type="text" placeholder="codigo" name="codigo">
+        <button type="submit">Submit</button>
+      </form> -->
+
+    <form name="Access" onsubmit="return validateData()" action="/inicio_sesion" method="POST">
+        <p>Ingrese su usuario y contraseña para ingresar al sistema</p>
+        <input type="text" placeholder="name" name="name">
+        <input type="password" placeholder="password" name="password">
+        <button type="buscar">Aceptar</button>
+    </form>
+    <br>
+    <br>
+    <form action="/registro_page" method="POST">
+        <p>Registrarse en el sistema</p>
+        <button type="buscar">Registrarse</button>
+    </form>
+
+</body>
+</html>

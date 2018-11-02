@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <script type="text/javascript" src="assets/js/instascan.min.js"></script>
+    <link rel="stylesheet" href="assets/css/style_index.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <title>Administrador</title>
+
+</head>
+<body>
+    <h1>Sistema de administración</h1>
+    <!-- <form action="/quotes" method="POST">
+        <input type="text" placeholder="name" name="name">
+        <input type="text" placeholder="codigo" name="codigo">
+        <button type="submit">Submit</button>
+      </form> -->
+
+    <form action="/buscar" method="POST">
+        <p>Ingrese el código de su unidad central a buscar</p>
+        <input type="text" placeholder="código" name="codigo">
+        <button type="buscar">Buscar</button>
+    </form>
+    <br>
+    <table style="width:80%" align="center">
+        <tr>
+            <th>ID</th>
+            <th>Código</th>
+            <th>Responsable</th>
+            <th>Estado</th>
+            <th>Jurisdiccion</th>
+            <th>Mail</th>
+            <th>Modificar</th>
+        </tr>
+        <% for(var i=0; i<codigos.length; i++) {%>
+        <tr>
+            <td><%= codigos[i].name %></td>
+            <td><%= codigos[i].codigo %></td>
+            <td><%= codigos[i].responsable %></td>
+            <td><%= codigos[i].estado %></td>
+            <td><%= codigos[i].jurisdiccion %></td>
+            <td><%= codigos[i].mail %></td>
+            <td>
+                <form action="/configuracion" method="POST">
+                <button class="btn"><i class="fa fa-home"></i></button>
+                </form>
+            </td>
+            </tr>
+        <% } %>
+    </table>
+
+
+</body>
+</html>
