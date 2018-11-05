@@ -1,57 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <script type="text/javascript" src="assets/js/instascan.min.js"></script>
-    <link rel="stylesheet" href="assets/css/style_index.css">
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
     <title>Administrador</title>
 
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/full-width-pics.css" rel="stylesheet">
+
 </head>
 <body>
-    <h1>Sistema de administración</h1>
-    <!-- <form action="/quotes" method="POST">
-        <input type="text" placeholder="name" name="name">
-        <input type="text" placeholder="codigo" name="codigo">
-        <button type="submit">Submit</button>
-      </form> -->
 
-    <form action="/buscar" method="POST">
-        <p>Ingrese el código de su unidad central a buscar</p>
-        <input type="text" placeholder="código" name="codigo">
-        <button type="buscar">Buscar</button>
-    </form>
-    <br>
-    <table style="width:80%" align="center">
-        <tr>
-            <th>ID</th>
-            <th>Código</th>
-            <th>Responsable</th>
-            <th>Estado</th>
-            <th>Jurisdiccion</th>
-            <th>Mail</th>
-            <th>Modificar</th>
-        </tr>
-        <% for(var i=0; i<codigos.length; i++) {%>
-        <tr>
-            <td><%= codigos[i].name %></td>
-            <td><%= codigos[i].codigo %></td>
-            <td><%= codigos[i].responsable %></td>
-            <td><%= codigos[i].estado %></td>
-            <td><%= codigos[i].jurisdiccion %></td>
-            <td><%= codigos[i].mail %></td>
-            <td>
-                <form action="/configuracion" method="POST">
-                <button class="btn"><i class="fa fa-home"></i></button>
-                </form>
-            </td>
-            </tr>
-        <% } %>
-    </table>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <span class="navbar-brand" href="#"><font size="+3">Cadena de frío</font></span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Cerrar Sesión</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <section class="py-5">
+        <div class="container">
+            <h1>Sistema de administración</h1>
+            <!-- <form action="/quotes" method="POST">
+                <input type="text" placeholder="name" name="name">
+                <input type="text" placeholder="codigo" name="codigo">
+                <button type="submit">Submit</button>
+            </form> -->
 
+            <form action="/buscar" method="POST">
+                <p>Ingrese el código de su unidad central a buscar</p>
+                <input type="text" placeholder="código" name="codigo">
+                <button type="buscar">Buscar</button>
+            </form>
+            <br>
+            <table style="width:80%" align="center">
+                <tr>
+                    <th>ID</th>
+                    <th>Código</th>
+                    <th>Responsable</th>
+                    <th>Estado</th>
+                    <th>Jurisdiccion</th>
+                    <th>Mail</th>
+                    <th>Modificar</th>
+                </tr>
+                <% for(var i=0; i<codigos.length; i++) {%>
+                <tr>
+                    <td><%= codigos[i].name %></td>
+                    <td><%= codigos[i].codigo %></td>
+                    <td><%= codigos[i].responsable %></td>
+                    <td><%= codigos[i].estado %></td>
+                    <td><%= codigos[i].jurisdiccion %></td>
+                    <td><%= codigos[i].mail %></td>
+                    <td>
+                        <form action="/configuracion" method="POST">
+                        <button class="btn"><i class="fa fa-home"></i></button>
+                        </form>
+                    </td>
+                    </tr>
+                <% } %>
+            </table>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div class="footer">
+        <footer class="bg-dark"> 
+            <p class="m-0 text-center text-white">Copyright &copy; Fundación Carlos Slim de la Salud.</p>
+            <!-- /.container -->
+        </footer>
+    </div>
+    
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="assets/jquery/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
