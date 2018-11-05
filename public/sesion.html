@@ -7,7 +7,19 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Cadena de frío</title>
+    
+    <script>
+        function validateData() {
+            var x = document.forms["Access"]["name"].value;
+            var y = document.forms["Access"]["password"].value;
+            if (x == "" || y == "") {
+                alert("Los campos deben tener valores");
+                return false;
+            }
+        }
+    </script>
+
+    <title>Inicio de sesión</title>
 
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -46,19 +58,24 @@
         </div>
     </nav>
 
-    <header class="bg-image-full" style="background-image: url('https://unsplash.it/1900/1080?image=1076');">
-        <img class="img-fluid" src="https://github.com/MartinRoman7/AWS-IoT/blob/master/CDV-01.png?raw=true" alt="">
-    </header>
 
-    <!-- Content section -->
     <section class="py-5">
         <div class="container">
-            <h1>Sistema de administración</h1>
-            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, suscipit, rerum quos facilis repellat architecto commodi officia atque nemo facere eum non illo voluptatem quae delectus odit vel itaque amet.</p>
+            <h1>Inicio de sesión</h1>
+            <form name="Access" onsubmit="return validateData()" action="/inicio_sesion" method="POST">
+                <p>Ingrese su usuario y contraseña para ingresar al sistema</p>
+                <input type="text" placeholder="name" name="name">
+                <input type="password" placeholder="password" name="password">
+                <button type="buscar">Aceptar</button>
+            </form>
+            <br>
+            <br>
+            <form action="/registro_page" method="POST">
+                <p>Registrarse en el sistema</p>
+                <button type="buscar">Registrarse</button>
+            </form>
         </div>
     </section>
-    
 
 </body>
 </html>

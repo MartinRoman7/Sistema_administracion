@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <script type="text/javascript" src="assets/js/instascan.min.js"></script>
-    <link rel="stylesheet" href="assets/css/style_index.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
     
     <script>
         function validateData() {
@@ -19,15 +20,55 @@
 
     <title>Registro</title>
 
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/full-width-pics.css" rel="stylesheet">
+
 </head>
 <body>
-    <h1>Registro</h1>
-    <form name="Access" onsubmit="return validateData()" action="/registro" method="POST">
-        <p>Ingrese su usuario y contraseña para dar de alta en el sistema</p>
-        <input type="text" placeholder="name" name="name">
-        <input type="password" placeholder="password" name="password">
-        <button type="submit">Aceptar</button>
-      </form>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <span class="navbar-brand" href="#"><font size="+3">Cadena de frío</font></span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                <a class="nav-link" href="/">Home
+                    <span class="sr-only">(current)</span>
+                </a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="sesion.html">Sesión</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="video.html">Lector QR</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="py-5">
+        <div class="container">
+            <h1>Registro</h1>
+            <form name="Access" onsubmit="return validateData()" action="/registro" method="POST">
+                <p>Ingrese su usuario y contraseña para dar de alta en el sistema</p>
+                <input type="text" placeholder="name" name="name">
+                <input type="password" placeholder="password" name="password">
+                <button type="submit">Aceptar</button>
+            </form>
+        </div>
+    </section>
 
 </body>
 </html>
