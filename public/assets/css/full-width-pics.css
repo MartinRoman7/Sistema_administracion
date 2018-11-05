@@ -4,7 +4,7 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-full-width-pics/blob/master/LICENSE)
  */
 
-body {
+ body {
   padding-top: 54px;
 }
 
@@ -17,12 +17,20 @@ body {
 .bg-image-full {
   background: no-repeat center center scroll;
   background-size: cover;
-  width: 100%;
 }
 
-.img-fluid {
-  width: 20%;
-  margin-top: 30px;
-  margin-bottom: 120px;
-  margin-left: 30px;
+.img-fluid{
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-bottom: 150px;
+  width: 23%;
+}
+
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  text-align: center;
 }

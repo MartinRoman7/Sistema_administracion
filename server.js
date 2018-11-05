@@ -17,8 +17,8 @@ const bodyParser = require('body-parser')
 // Pass: mongodb123
 // Enlace: mongodb://<dbuser>:<dbpassword>@ds241493.mlab.com:41493/id_qr
 const MongoClient = require('mongodb').MongoClient;
-const url = "mongodb://localhost:27017/";
-//const url = "mongodb://mongodb:mongodb123@ds241493.mlab.com:41493/id_qr"
+//const url = "mongodb://localhost:27017/";
+const url = "mongodb://mongodb:mongodb123@ds241493.mlab.com:41493/id_qr"
 
 // Notificaciones Slack
 var Slack = require('slack-node');
