@@ -6,9 +6,10 @@
   heroku git:remote -a qr-lector
   git push heroku master
 */
-const express = require('express')
-const app = express()
-const bodyParser = require('body-parser')
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const bcrypt = require('bcryptjs');
 //const mongoose = require('mongoose');
 
 // MongoDB
