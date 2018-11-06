@@ -1,10 +1,9 @@
-# QR_Lector
-Sistema lector de código QR montado sobre NodeJS y enlazado a base de datos Mongo con notificaciones a Slack.
+# Sistema de administración
+Sistema de administración para dar de alta las unidades centrales (RB).
 
 ## Dependencias
 * NodeJS
 * MongoDB
-* Slack
 
 ## Instalación
 
