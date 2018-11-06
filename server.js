@@ -83,7 +83,7 @@ app.post('/inicio_sesion', (req, res) => {
             if( out === true){
               console.log('Password coinciden');
               //res.redirect('/admin.html');
-              res.sendFile( __dirname + '/admin.html' );
+              res.sendFile( __dirname + '/pages/admin.html' );
             }else{
               console.log('Password no coinciden');
               res.render('sesion.ejs', {mensaje: "Usuario y/o contraseña no validos"});
@@ -111,7 +111,7 @@ app.post('/inicio_sesion', (req, res) => {
 app.post('/registro_page', (req, res) => {
   //let codigo = req.body.codigo;
   //res.redirect('/registro.html')
-  res.sendFile( __dirname + '/registro.html' );
+  res.sendFile( __dirname + '/pages/registro.html' );
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -280,7 +280,7 @@ app.post('/buscar', (req, res) => {
 
 
 app.post('/configuracion', (req, res) => { 
-  res.sendFile( __dirname + '/configuracion.html' );
+  res.sendFile( __dirname + '/pages/configuracion.html' );
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////////

@@ -59,33 +59,36 @@
         </div>
     </nav>
 
-    <section class="py-5">
-        <div class="container">
-            <h1>Registro</h1>
-            <form name="Access" onsubmit="return validateData()" action="/registro" method="POST">
-                <p>Ingrese su usuario y contraseña para dar de alta en el sistema</p>
-                <input type="text" placeholder="name" name="name">
-                <input type="password" placeholder="password" name="password">
-                <button type="submit">Aceptar</button>
-            </form>
-            <% if(mensaje.length != 0) {%>
-                <br>
-                <div class="alert">
-                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-                    <strong><%= mensaje %></strong>
+    <div id="wrap">
+        <div id="main" class="container clear-top">
+            <section class="py-5">
+                <div class="container">
+                    <h1>Registro</h1>
+                    <form name="Access" onsubmit="return validateData()" action="/registro" method="POST">
+                        <p>Ingrese su usuario y contraseña para dar de alta en el sistema</p>
+                        <input type="text" placeholder="name" name="name">
+                        <input type="password" placeholder="password" name="password">
+                        <button type="submit">Aceptar</button>
+                    </form>
+                    <% if(mensaje.length != 0) {%>
+                        <br>
+                        <div class="alert">
+                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                            <strong><%= mensaje %></strong>
+                        </div>
+                    <% } %>
                 </div>
-            <% } %>
+            </section>
         </div>
-    </section>
+    </div>
 
 
     <!-- Footer -->
-    <div class="footer">
-        <footer class="bg-dark"> 
-            <p class="m-0 text-center text-white">Copyright &copy; Fundación Carlos Slim de la Salud.</p>
-            <!-- /.container -->
-        </footer>
-    </div>
+    <footer class="footer bg-dark">
+        <p class="m-0 text-center text-white">
+            Copyright &copy; Fundación Carlos Slim de la Salud.
+        </p>
+    </footer>
 
 
     <!-- Bootstrap core JavaScript -->

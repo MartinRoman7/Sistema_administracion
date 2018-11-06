@@ -48,69 +48,72 @@
             </div>
         </div>
     </nav>
-    
-    <section class="py-5">
-        <div class="container">
-            <h1>Sistema de administración</h1>
-            <!-- <form action="/quotes" method="POST">
-                <input type="text" placeholder="name" name="name">
-                <input type="text" placeholder="codigo" name="codigo">
-                <button type="submit">Submit</button>
-            </form> -->
 
-            <form name="Access" onsubmit="return validateData()" action="/buscar" method="POST">
-                <p>Ingrese el código de su unidad central a buscar</p>
-                <input type="text" placeholder="código" name="codigo">
-                <button type="buscar">Buscar</button>
-            </form>
-            
-            <br>
-            
-            <% if(mensaje.length != 0) {%>
-                <div class="alert">
-                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-                    <strong><%= mensaje %></strong>
+    <div id="wrap">
+        <div id="main" class="container clear-top">
+            <section class="py-5">
+                <div class="container">
+                    <h1>Sistema de administración</h1>
+                    <!-- <form action="/quotes" method="POST">
+                        <input type="text" placeholder="name" name="name">
+                        <input type="text" placeholder="codigo" name="codigo">
+                        <button type="submit">Submit</button>
+                    </form> -->
+
+                    <form name="Access" onsubmit="return validateData()" action="/buscar" method="POST">
+                        <p>Ingrese el código de su unidad central a buscar</p>
+                        <input type="text" placeholder="código" name="codigo">
+                        <button type="buscar">Buscar</button>
+                    </form>
+                    
+                    <br>
+                    
+                    <% if(mensaje.length != 0) {%>
+                        <div class="alert">
+                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                            <strong><%= mensaje %></strong>
+                        </div>
+                    <% } %>
+
+                    <br>
+
+                    <table style="width:80%" align="center">
+                        <tr>
+                            <th>ID</th>
+                            <th>Código</th>
+                            <th>Responsable</th>
+                            <th>Estado</th>
+                            <th>Jurisdiccion</th>
+                            <th>Mail</th>
+                            <th>Modificar</th>
+                        </tr>
+                        <% for(var i=0; i<codigos.length; i++) {%>
+                        <tr>
+                            <td><%= codigos[i].name %></td>
+                            <td><%= codigos[i].codigo %></td>
+                            <td><%= codigos[i].responsable %></td>
+                            <td><%= codigos[i].estado %></td>
+                            <td><%= codigos[i].jurisdiccion %></td>
+                            <td><%= codigos[i].mail %></td>
+                            <td>
+                                <form action="/configuracion" method="POST">
+                                <button class="btn"><i class="fa fa-home"></i></button>
+                                </form>
+                            </td>
+                            </tr>
+                        <% } %>
+                    </table>
                 </div>
-            <% } %>
-
-            <br>
-
-            <table style="width:80%" align="center">
-                <tr>
-                    <th>ID</th>
-                    <th>Código</th>
-                    <th>Responsable</th>
-                    <th>Estado</th>
-                    <th>Jurisdiccion</th>
-                    <th>Mail</th>
-                    <th>Modificar</th>
-                </tr>
-                <% for(var i=0; i<codigos.length; i++) {%>
-                <tr>
-                    <td><%= codigos[i].name %></td>
-                    <td><%= codigos[i].codigo %></td>
-                    <td><%= codigos[i].responsable %></td>
-                    <td><%= codigos[i].estado %></td>
-                    <td><%= codigos[i].jurisdiccion %></td>
-                    <td><%= codigos[i].mail %></td>
-                    <td>
-                        <form action="/configuracion" method="POST">
-                        <button class="btn"><i class="fa fa-home"></i></button>
-                        </form>
-                    </td>
-                    </tr>
-                <% } %>
-            </table>
+            </section>
         </div>
-    </section>
+    </div>
 
     <!-- Footer -->
-    <div class="footer">
-        <footer class="bg-dark"> 
-            <p class="m-0 text-center text-white">Copyright &copy; Fundación Carlos Slim de la Salud.</p>
-            <!-- /.container -->
-        </footer>
-    </div>
+    <footer class="footer bg-dark">
+        <p class="m-0 text-center text-white">
+            Copyright &copy; Fundación Carlos Slim de la Salud.
+        </p>
+    </footer>
     
 
     <!-- Bootstrap core JavaScript -->

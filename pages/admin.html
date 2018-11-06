@@ -6,21 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>Registro</title>
+    
+    <title>Administrador</title>
 
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="assets/css/full-width-pics.css" rel="stylesheet">
-    
+
+    <link rel="stylesheet" href="assets/css/style_admin.css">
+
     <script>
         function validateData() {
-            var x = document.forms["Access"]["name"].value;
-            var y = document.forms["Access"]["password"].value;
+            var x = document.forms["Access"]["codigo"].value;
             if (x == "" || y == "") {
-                alert("Los campos deben tener valores");
+                alert("El campo debe tener valor");
                 return false;
             }
         }
@@ -38,44 +39,49 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                <a class="nav-link" href="/">Home
-                    <span class="sr-only">(current)</span>
-                </a>
-                </li>
                 <li class="nav-item">
-                <a class="nav-link" href="sesion.html">Sesión</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="video.html">Lector QR</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="/">Cerrar Sesión</a>
                 </li>
             </ul>
             </div>
         </div>
     </nav>
 
-    <section class="py-5">
-        <div class="container">
-            <h1>Registro</h1>
-            <form name="Access" onsubmit="return validateData()" action="/registro" method="POST">
-                <p>Ingrese su usuario y contraseña para dar de alta en el sistema</p>
-                <input type="text" placeholder="name" name="name">
-                <input type="password" placeholder="password" name="password">
-                <button type="submit">Aceptar</button>
-            </form>
+    <div id="wrap">
+        <div id="main" class="container clear-top">            
+            <section class="py-5">
+                <div class="container">
+                    <h1>Sistema de administración</h1>
+
+                    <form name="Access" onsubmit="return validateData()" action="/buscar" method="POST">
+                        <p>Ingrese el código de su unidad central a buscar</p>
+                        <input type="text" placeholder="código" name="codigo">
+                        <button type="buscar">Buscar</button>
+                    </form>
+                </div>
+            </section>
+
+            <table style="width:80%" align="center">
+                <tr>
+                    <th>ID</th>
+                    <th>Código</th>
+                    <th>Responsable</th>
+                    <th>Estado</th>
+                    <th>Jurisdiccion</th>
+                    <th>Mail</th>
+                    <th>Modificar</th>
+                </tr>
+            </table>
         </div>
-    </section>
+    </div>
+
 
     <!-- Footer -->
-    <div class="footer">
-        <footer class="bg-dark"> 
-            <p class="m-0 text-center text-white">Copyright &copy; Fundación Carlos Slim de la Salud.</p>
-            <!-- /.container -->
-        </footer>
-    </div>
+    <footer class="footer bg-dark">
+        <p class="m-0 text-center text-white">
+            Copyright &copy; Fundación Carlos Slim de la Salud.
+        </p>
+    </footer>
 
 
     <!-- Bootstrap core JavaScript -->

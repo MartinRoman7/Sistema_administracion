@@ -59,40 +59,42 @@
         </div>
     </nav>
 
+    <div id="wrap">
+        <div id="main" class="container clear-top">
+            <section class="py-5">
+                <div class="container">
+                    <h1>Inicio de sesión</h1>
+                    <form name="Access" onsubmit="return validateData()" action="/inicio_sesion" method="POST">
+                        <p>Ingrese su usuario y contraseña para ingresar al sistema</p>
+                        <input type="text" placeholder="nombre" name="name">
+                        <input type="password" placeholder="contraseña" name="password">
+                        <button type="buscar">Aceptar</button>
+                    </form>
 
-    <section class="py-5">
-        <div class="container">
-            <h1>Inicio de sesión</h1>
-            <form name="Access" onsubmit="return validateData()" action="/inicio_sesion" method="POST">
-                <p>Ingrese su usuario y contraseña para ingresar al sistema</p>
-                <input type="text" placeholder="nombre" name="name">
-                <input type="password" placeholder="contraseña" name="password">
-                <button type="buscar">Aceptar</button>
-            </form>
+                    <% if(mensaje.length != 0) {%>
+                        <br>
+                        <div class="alert">
+                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                            <strong><%= mensaje %></strong>
+                        </div>
+                    <% } %>
 
-            <% if(mensaje.length != 0) {%>
-                <br>
-                <div class="alert">
-                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-                    <strong><%= mensaje %></strong>
+                    <br><br><br><br>
+                    <form action="/registro_page" method="POST" align="right">
+                        <h4>Registrarse en el sistema</h4>
+                        <button type="buscar">Registrarse</button>
+                    </form>
                 </div>
-            <% } %>
-
-            <br><br><br><br>
-            <form action="/registro_page" method="POST" align="right">
-                <h4>Registrarse en el sistema</h4>
-                <button type="buscar">Registrarse</button>
-            </form>
+            </section>
         </div>
-    </section>
+    </div>
 
     <!-- Footer -->
-    <div class="footer">
-        <footer class="bg-dark"> 
-            <p class="m-0 text-center text-white">Copyright &copy; Fundación Carlos Slim de la Salud.</p>
-            <!-- /.container -->
-        </footer>
-    </div>
+    <footer class="footer bg-dark">
+        <p class="m-0 text-center text-white">
+            Copyright &copy; Fundación Carlos Slim de la Salud.
+        </p>
+    </footer>
 
 
     <!-- Bootstrap core JavaScript -->

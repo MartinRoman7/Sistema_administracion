@@ -7,14 +7,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Inicio de sesión</title>
+    <title>Registro</title>
 
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="assets/css/full-width-pics.css" rel="stylesheet">
-
     
     <script>
         function validateData() {
@@ -58,37 +57,21 @@
         </div>
     </nav>
 
-
     <div id="wrap">
         <div id="main" class="container clear-top">
             <section class="py-5">
                 <div class="container">
-                    <h1>Inicio de sesión</h1>
-                    <form name="Access" onsubmit="return validateData()" action="/inicio_sesion" method="POST">
-                        <p>Ingrese su usuario y contraseña para ingresar al sistema</p>
-                        <input type="text" placeholder="nombre" name="name">
-                        <input type="password" placeholder="contraseña" name="password">
-                        <button type="buscar">Aceptar</button>
-                    </form>
-                </div>
-            </section>
-            
-            <section class="py-5">
-                <div class="container">
-                    <form action="/registro_page" method="POST" align="right">
-                        <h4>Registrarse en el sistema</h4>
-                        <button type="buscar">Registrarse</button>
+                    <h1>Registro</h1>
+                    <form name="Access" onsubmit="return validateData()" action="/registro" method="POST">
+                        <p>Ingrese su usuario y contraseña para dar de alta en el sistema</p>
+                        <input type="text" placeholder="name" name="name">
+                        <input type="password" placeholder="password" name="password">
+                        <button type="submit">Aceptar</button>
                     </form>
                 </div>
             </section>
         </div>
     </div>
-    <!-- Footer -->
-    <!-- <div class="footer">
-        <footer class="bg-dark"> 
-            <p class="m-0 text-center text-white">Copyright &copy; Fundación Carlos Slim de la Salud.</p>
-        </footer>
-    </div>-->
 
     <!-- Footer -->
     <footer class="footer bg-dark">
