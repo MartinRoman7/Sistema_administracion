@@ -260,7 +260,8 @@ app.post('/buscar', (req, res) => {
         } else{
           console.log('Código no encontrado');
           //res.redirect('/admin.html');
-          res.sendFile( __dirname + '/admin.html' );
+          res.render('admin.ejs', {mensaje: "No existe código en la DB"});
+          //res.sendFile( __dirname + '/admin.html' );
         }
       }
     });

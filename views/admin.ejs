@@ -19,6 +19,16 @@
     
     <link rel="stylesheet" href="assets/css/style_admin.css">
 
+    <script>
+        function validateData() {
+            var x = document.forms["Access"]["codigo"].value;
+            if (x == "" || y == "") {
+                alert("El campo debe tener valor");
+                return false;
+            }
+        }
+    </script>
+
 </head>
 <body>
 
@@ -48,12 +58,20 @@
                 <button type="submit">Submit</button>
             </form> -->
 
-            <form action="/buscar" method="POST">
+            <form name="Access" onsubmit="return validateData()" action="/buscar" method="POST">
                 <p>Ingrese el código de su unidad central a buscar</p>
                 <input type="text" placeholder="código" name="codigo">
                 <button type="buscar">Buscar</button>
             </form>
+
+            <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                <%= mensaje %>
+            </div>
+
+
             <br>
+
             <table style="width:80%" align="center">
                 <tr>
                     <th>ID</th>
