@@ -4,6 +4,7 @@
   git status
   heroku login
   heroku git:remote -a qr-lector
+  heroku git:remote -a cadena-de-frio-admin
   git push heroku master
 */
 const express = require('express');
