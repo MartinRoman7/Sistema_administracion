@@ -7,23 +7,22 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
-    <title>Administrador</title>
+    <title>Registro</title>
 
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="assets/css/full-width-pics.css" rel="stylesheet">
-    
-    <link rel="stylesheet" href="assets/css/style_admin.css">
 
+    <link rel="stylesheet" href="assets/css/style_admin.css">
+    
     <script>
         function validateData() {
-            var x = document.forms["Access"]["codigo"].value;
+            var x = document.forms["Access"]["name"].value;
+            var y = document.forms["Access"]["password"].value;
             if (x == "" || y == "") {
-                alert("El campo debe tener valor");
+                alert("Los campos deben tener valores");
                 return false;
             }
         }
@@ -41,68 +40,44 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                <a class="nav-link" href="/">Home
+                    <span class="sr-only">(current)</span>
+                </a>
+                </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Cerrar Sesión</a>
+                <a class="nav-link" href="sesion.html">Sesión</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="video.html">Lector QR</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#">Contact</a>
                 </li>
             </ul>
             </div>
         </div>
     </nav>
-    
+
     <section class="py-5">
         <div class="container">
-            <h1>Sistema de administración</h1>
-            <!-- <form action="/quotes" method="POST">
+            <h1>Registro</h1>
+            <form name="Access" onsubmit="return validateData()" action="/registro" method="POST">
+                <p>Ingrese su usuario y contraseña para dar de alta en el sistema</p>
                 <input type="text" placeholder="name" name="name">
-                <input type="text" placeholder="codigo" name="codigo">
-                <button type="submit">Submit</button>
-            </form> -->
-
-            <form name="Access" onsubmit="return validateData()" action="/buscar" method="POST">
-                <p>Ingrese el código de su unidad central a buscar</p>
-                <input type="text" placeholder="código" name="codigo">
-                <button type="buscar">Buscar</button>
+                <input type="password" placeholder="password" name="password">
+                <button type="submit">Aceptar</button>
             </form>
-            
-            <br>
-            
             <% if(mensaje.length != 0) {%>
+                <br>
                 <div class="alert">
                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
                     <strong><%= mensaje %></strong>
                 </div>
             <% } %>
-
-            <br>
-
-            <table style="width:80%" align="center">
-                <tr>
-                    <th>ID</th>
-                    <th>Código</th>
-                    <th>Responsable</th>
-                    <th>Estado</th>
-                    <th>Jurisdiccion</th>
-                    <th>Mail</th>
-                    <th>Modificar</th>
-                </tr>
-                <% for(var i=0; i<codigos.length; i++) {%>
-                <tr>
-                    <td><%= codigos[i].name %></td>
-                    <td><%= codigos[i].codigo %></td>
-                    <td><%= codigos[i].responsable %></td>
-                    <td><%= codigos[i].estado %></td>
-                    <td><%= codigos[i].jurisdiccion %></td>
-                    <td><%= codigos[i].mail %></td>
-                    <td>
-                        <form action="/configuracion" method="POST">
-                        <button class="btn"><i class="fa fa-home"></i></button>
-                        </form>
-                    </td>
-                    </tr>
-                <% } %>
-            </table>
         </div>
     </section>
+
 
     <!-- Footer -->
     <div class="footer">
@@ -111,7 +86,7 @@
             <!-- /.container -->
         </footer>
     </div>
-    
+
 
     <!-- Bootstrap core JavaScript -->
     <script src="assets/jquery/jquery.min.js"></script>

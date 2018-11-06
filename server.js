@@ -86,13 +86,15 @@ app.post('/inicio_sesion', (req, res) => {
               res.sendFile( __dirname + '/admin.html' );
             }else{
               console.log('Password no coinciden');
-              res.redirect('/');
+              res.render('sesion.ejs', {mensaje: "Usuario y/o contraseña no validos"});
+              //res.redirect('/');
             }
           });
 
         } else{
           console.log('Usuario no encontrado');
-          res.redirect('/');
+          res.render('sesion.ejs', {mensaje: "Usuario no dado de alta"});
+          //res.redirect('/');
         }
       }
     });
@@ -138,6 +140,7 @@ app.post('/registro', (req, res) => {
           else{
             if (result.length){ 
               console.log('Usuario existente');
+              res.render('registro.ejs', {mensaje: "Usuario ya existente, ingrese uno nuevo."});
             } else{
               console.log('Usuario nuevo');
               dbo.collection("Users").insertOne(myobj, function(err, result) {
@@ -145,11 +148,11 @@ app.post('/registro', (req, res) => {
                 console.log('saved to database');
               });
               client.close();
+              res.redirect('/sesion.html');
             }
           }
         });
       });
-      res.redirect('/');
     });
   });
 
@@ -256,11 +259,11 @@ app.post('/buscar', (req, res) => {
       else{
         if (result.length){ 
           console.log('Código encontrado');
-          res.render('admin.ejs', {codigos: result});
+          res.render('admin.ejs', {mensaje: "", codigos: result});
         } else{
           console.log('Código no encontrado');
           //res.redirect('/admin.html');
-          res.render('admin.ejs', {mensaje: "No existe código en la DB"});
+          res.render('admin.ejs', {mensaje: "No existe código en la DB", codigos: ""});
           //res.sendFile( __dirname + '/admin.html' );
         }
       }
