@@ -4,21 +4,12 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-full-width-pics/blob/master/LICENSE)
  */
 
-html, body {
+html{
   height: 100%;
 }
 
-@media (min-width: 401px) {
-  body {
-    padding-top: 56px;
-  }
-}
-
-@media only screen and (max-width: 400px) {
-  body {
-    padding-top: 56px;
-    background-color: lightblue;
-  }
+body {
+  padding-top: 56px;
 }
 
 .bg-image-full {
@@ -110,4 +101,11 @@ th, td {
   left: 48%;
   margin-right: -50%;
   transform: translate(-50%, -50%)
+}
+
+@media only screen and (max-width: 400px) {
+  body {
+    padding-top: 56px;
+    background-color: lightblue;
+  }
 }
