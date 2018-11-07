@@ -8,16 +8,23 @@ html, body {
   height: 100%;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 401px) {
   body {
     padding-top: 56px;
   }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 400px) {
   body {
     padding-top: 56px;
   }
+  .alert {
+    position: relative;
+    padding: 10px;
+    background-color: #f44336;
+    color: white;
+    top: 100px;
+}
 }
 
 .bg-image-full {
