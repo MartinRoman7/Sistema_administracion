@@ -66,9 +66,9 @@
                     <h1>Inicio de sesión</h1>
                     <form class="global" name="Access" onsubmit="return validateData()" action="/sesion" method="POST">
                         <p>Ingrese su usuario y contraseña para ingresar al sistema</p>
-                        <input type="text" placeholder="Nombre" name="name">
-                        <input type="password" placeholder="Contraseña" name="password">
-                        <button type="submit">Aceptar</button>
+                        <input type="text" placeholder="Nombre" name="name"><br><br>
+                        <input type="password" placeholder="Contraseña" name="password"><br><br>
+                        <button type="submit" style="float: right;">Aceptar</button>
                     </form>
                 </div>
                 <% if(mensaje.length != 0) {%>
@@ -81,7 +81,7 @@
             </section>
 
             <section class="py-5">
-                <div class="container">
+                <div class="container-register">
                     <form action="/registro" method="GET" align="right">
                         <h4>Registrarse en el sistema</h4>
                         <button type="buscar">Registrarse</button>
