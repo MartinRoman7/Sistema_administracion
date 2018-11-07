@@ -59,10 +59,9 @@
         </div>
     </nav>
 
-    <div id="wrap">
-        <div id="main" class="container clear-top">
-            <section class="py-5">
-                <div class="container">
+
+            
+                <div class="inicio-sesion">
                     <h1>Inicio de sesión</h1>
                     <form class="global" name="Access" onsubmit="return validateData()" action="/sesion" method="POST">
                         <p>Ingrese su usuario y contraseña para ingresar al sistema</p>
@@ -78,18 +77,14 @@
                         <strong><%= mensaje %></strong>
                     </div>
                 <% } %>
-            </section>
 
-            <section class="py-5">
+            
                 <div class="container-register">
                     <form action="/registro" method="GET" align="right">
                         <h4>Registrarse en el sistema</h4>
                         <button type="buscar">Registrarse</button>
                     </form>
                 </div>
-            </section>
-        </div>
-    </div>
 
 
 
