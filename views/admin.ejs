@@ -60,9 +60,9 @@
                         <button type="submit">Submit</button>
                     </form> -->
 
-                    <form name="Access" onsubmit="return validateData()" action="/buscar" method="POST">
+                    <form class="global" name="Access" onsubmit="return validateData()" action="/buscar" method="POST">
                         <p>Ingrese el código de su unidad central a buscar</p>
-                        <input type="text" placeholder="código" name="codigo">
+                        <input type="text" placeholder="Código" name="codigo">
                         <button type="buscar">Buscar</button>
                     </form>
                     
@@ -75,8 +75,12 @@
                         </div>
                     <% } %>
 
-                    <br>
+                </div>
+            </section>
 
+
+            <section class="py-5">
+                <div class="container">        
                     <table style="width:80%" align="center">
                         <tr>
                             <th>ID</th>
@@ -97,7 +101,7 @@
                             <td><%= codigos[i].mail %></td>
                             <td>
                                 <form action="/configuracion" method="POST">
-                                <button class="btn"><i class="fa fa-home"></i></button>
+                                    <button class="btn"><i class="fa fa-home"></i></button>
                                 </form>
                             </td>
                             </tr>

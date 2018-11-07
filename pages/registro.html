@@ -44,10 +44,10 @@
                 </a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="sesion.html">Sesión</a>
+                <a class="nav-link" href="/sesion">Sesión</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="video.html">Lector QR</a>
+                <a class="nav-link" href="/qr-code">Lector QR</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="#">Contact</a>
@@ -62,10 +62,10 @@
             <section class="py-5">
                 <div class="container">
                     <h1>Registro</h1>
-                    <form name="Access" onsubmit="return validateData()" action="/registro" method="POST">
+                    <form class="global" name="Access" onsubmit="return validateData()" action="/registro" method="POST">
                         <p>Ingrese su usuario y contraseña para dar de alta en el sistema</p>
-                        <input type="text" placeholder="name" name="name">
-                        <input type="password" placeholder="password" name="password">
+                        <input type="text" placeholder="nombre" name="name">
+                        <input type="password" placeholder="contraseña" name="password">
                         <button type="submit">Aceptar</button>
                     </form>
                 </div>

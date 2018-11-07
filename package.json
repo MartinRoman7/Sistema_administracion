@@ -17,6 +17,7 @@
     "express": "^4.16.4",
     "mongodb": "^3.1.8",
     "mongoose": "^5.3.6",
+    "request": "^2.88.0",
     "requirejs": "^2.3.6",
     "slack-node": "^0.1.8"
   }

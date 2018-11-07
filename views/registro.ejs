@@ -46,10 +46,10 @@
                 </a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="sesion.html">Sesión</a>
+                <a class="nav-link" href="/sesion">Sesión</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="video.html">Lector QR</a>
+                <a class="nav-link" href="/qr-code">Lector QR</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="#">Contact</a>
@@ -64,23 +64,25 @@
             <section class="py-5">
                 <div class="container">
                     <h1>Registro</h1>
-                    <form name="Access" onsubmit="return validateData()" action="/registro" method="POST">
+                    <form class="global" name="Access" onsubmit="return validateData()" action="/registro" method="POST">
                         <p>Ingrese su usuario y contraseña para dar de alta en el sistema</p>
-                        <input type="text" placeholder="name" name="name">
-                        <input type="password" placeholder="password" name="password">
-                        <button type="submit">Aceptar</button>
+                        <input type="text" placeholder="Nombre" name="name"><br><br>
+                        <input type="password" placeholder="Contraseña" name="password"><br><br>
+                        <input type="password" placeholder="Contraseña nuevamente" name="passwordagain"><br><br>
+                        <button type="submit" style="float: right;">Aceptar</button>
                     </form>
-                    <% if(mensaje.length != 0) {%>
-                        <br>
-                        <div class="alert">
-                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-                            <strong><%= mensaje %></strong>
-                        </div>
-                    <% } %>
                 </div>
+                <% if(mensaje.length != 0) {%>
+                    <br><br><br><br><br><br><br><br><br>
+                    <div class="alert">
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                        <strong><%= mensaje %></strong>
+                    </div>
+                <% } %>
             </section>
         </div>
     </div>
+
 
 
     <!-- Footer -->

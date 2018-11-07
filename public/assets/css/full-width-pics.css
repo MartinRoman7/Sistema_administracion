@@ -41,6 +41,13 @@ html, body {
   padding-bottom:150px; /* this needs to be bigger than footer height*/
 }
 
+form.global {
+  position: absolute;
+}
+
+form.show-all {
+  top: 20px;
+}
 
 .footer {
   position: absolute;
