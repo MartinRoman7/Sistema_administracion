@@ -14,17 +14,11 @@ html, body {
   }
 }
 
-@media (max-width: 400px) {
+@media only screen and (max-width: 400px) {
   body {
     padding-top: 56px;
+    background-color: lightblue;
   }
-  .alert {
-    position: relative;
-    padding: 10px;
-    background-color: #f44336;
-    color: white;
-    top: 100px;
-}
 }
 
 .bg-image-full {
@@ -61,4 +55,59 @@ form.show-all {
   margin-top: -40px; /* negative value of footer height */
   clear:both;
   width: 100%;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+}
+th, td {
+  padding: 5px;
+}
+
+.btn {
+  background-color: white;
+  border: none;
+  color: DodgerBlue;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
+}
+
+
+.alert {
+  position: relative;
+  padding: 10px;
+  background-color: #f44336;
+  color: white;
+  top: 50px;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+
+.camera {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 48%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%)
 }
