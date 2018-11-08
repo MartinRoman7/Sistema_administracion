@@ -142,7 +142,7 @@ app.post('/registro', (req, res) => {
   console.log(body);
   let user = body.name;
   let pass = body.password;
-  let pass_again = body.passwordagain;
+  let pass_again = body.passwordA;
 
   var n = pass.localeCompare(pass_again);
 

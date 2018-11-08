@@ -72,11 +72,9 @@ th, td {
 
 
 .alert {
-  position: relative;
   padding: 10px;
   background-color: #f44336;
   color: white;
-  top: 50px;
 }
 
 .closebtn {
