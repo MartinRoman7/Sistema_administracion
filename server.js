@@ -275,6 +275,8 @@ app.post('/quotes', (req, res) => {
 app.post('/buscar', (req, res) => {
   //let codigo = req.body.codigo;
   let objcodigo = req.body;
+  //let objcodigo = body.codigo;
+
   console.log(objcodigo);
 
   MongoClient.connect(url, function(err, client) {

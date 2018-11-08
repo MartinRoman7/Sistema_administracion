@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
+    
     <title>Administrador</title>
 
     <!-- Bootstrap core CSS -->
@@ -18,6 +19,7 @@
     <link href="assets/css/full-width-pics.css" rel="stylesheet">
     
     <link rel="stylesheet" href="assets/css/style_admin.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
     <script>
         function validateData() {
@@ -49,38 +51,49 @@
         </div>
     </nav>
 
-    <div id="wrap">
-        <div id="main" class="container clear-top">
-            <section class="py-5">
-                <div class="container">
-                    <h1>Sistema de administración</h1>
-                    <!-- <form action="/quotes" method="POST">
-                        <input type="text" placeholder="name" name="name">
-                        <input type="text" placeholder="codigo" name="codigo">
-                        <button type="submit">Submit</button>
-                    </form> -->
 
-                    <form class="global" name="Access" onsubmit="return validateData()" action="/buscar" method="POST">
-                        <p>Ingrese el código de su unidad central a buscar</p>
-                        <input type="text" placeholder="Código" name="codigo">
-                        <button type="buscar">Buscar</button>
-                    </form>
-                    
-                    <br>
-                    
-                    <% if(mensaje.length != 0) {%>
-                        <div class="alert">
-                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-                            <strong><%= mensaje %></strong>
-                        </div>
-                    <% } %>
 
+    <div class="container" style="width: 100%;" id="container">
+        
+        <ol id="breadcrumb" class="breadcrumb" hidden style="margin-left: 8px;"></ol>
+        <div class="row">
+            
+            <div class="col-sm-8 bottom-bufer">
+                    <!-- <div class="inicio-sesion">-->
+                <div class="bottom-buffer" style="margin-left: 8px; margin-top: 50px;">
+                        <h2>Sistema de administración</h2>
                 </div>
-            </section>
+                
+                <form role="form" action="/buscar" method="POST">
+                    <div class="form-group">
+                            <div class="col-sm-8">
+                                <input class="form-control" id="codigo" placeholder="Código" type="text" name="codigo" autocomplete="off" style="border-color: rgb(204, 204, 204);">
+                                <!-- <span id="msgErrorRfc" style="color: red; font-size: 11px; font-weight: initial;">Este campo es obligatorio.</span> -->
+                            </div>
+                    </div>
 
+                    <div class="clearfix">
+                        <div class="pull-right">
+                            <input class="btn btn-success" type="submit" value="Buscar" style="float: right;">
+                        </div>
+                    </div>
 
-            <section class="py-5">
-                <div class="container">        
+                    <div class="row" style id="divMsgError">
+                    
+                        <div class="col-sm-12">
+    
+                            <% if(mensaje.length != 0) {%>
+                                <div class="alert">
+                                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                                    <strong><%= mensaje %></strong>
+                                </div>
+                            <% } %>
+                            
+                        </div>
+                    </div>
+                </form>   
+                
+                <div class="bottom-buffer" style="margin-left: 8px; margin-top: 50px;">
                     <table style="width:80%" align="center">
                         <tr>
                             <th>ID</th>
@@ -108,10 +121,14 @@
                         <% } %>
                     </table>
                 </div>
-            </section>
+            </div>
         </div>
-    </div>
+    </div>    
 
+
+
+
+    
     
 
     <!-- Bootstrap core JavaScript -->
