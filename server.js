@@ -19,8 +19,8 @@ const bcrypt = require('bcryptjs');
 // Pass: mongodb123
 // Enlace: mongodb://<dbuser>:<dbpassword>@ds241493.mlab.com:41493/id_qr
 const MongoClient = require('mongodb').MongoClient;
-//const url = "mongodb://localhost:27017/";
-const url = "mongodb://mongodb:mongodb123@ds241493.mlab.com:41493/id_qr"
+const url = "mongodb://localhost:27017/id_qr";
+//const url = "mongodb://mongodb:mongodb123@ds241493.mlab.com:41493/id_qr"
 
 // Notificaciones Slack
 var Slack = require('slack-node');
@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
   res.sendFile( __dirname + '/index.html' );
 });
 
-// Sesion (sesion.html)
+// Sesion (sesion.ejs)
 app.get('/sesion', (req, res) => {
   console.log('Entro en GET /sesion');
   //res.sendFile funciona para descargar archivos
@@ -56,17 +56,90 @@ app.get('/sesion', (req, res) => {
 });
 
 // QR Lector (video.html)
-app.get('/qr-code', (req, res) => {
+app.post('/qr-code', (req, res) => {
   console.log('Entro en GET /qr-code');
   res.sendFile( __dirname + '/pages/video.html' );
 });
 
-// Registro (registro.html)
-app.get('/registro', (req, res) => {
-  console.log('Entro en GET /registro');
-  //res.sendFile( __dirname + '/pages/registro.html' );
+// Registro (registro.ejs)
+app.post('/registro', (req, res) => { 
   res.render('registro.ejs', {mensaje: ""});
 });
+
+// Configuracion (config.ejs)
+app.post('/configuracion', (req, res) => { 
+  
+  let body = req.body;
+  console.log(body);
+  /*MongoClient.connect(url, function(err, client) {
+    if (err) throw err;
+    var dbo = client.db("id_qr"); 
+    dbo.collection("CLUES").find({}).toArray(function(err, result) {
+    if (err) throw err;
+    else{
+        res.render('config.ejs', {mensaje: "", codigos: result});
+      }
+    });
+    client.close();
+  });*/
+
+  MongoClient.connect(url, function(err, client) {
+    if (err) throw err;
+    var dbo = client.db("id_qr"); 
+    dbo.collection("CLUES").aggregate([{ $group: { _id: "$NOMBRE DE LA UNIDAD" }}]).toArray(function(err, result_unidad) {
+    if (err) throw err;
+    else{
+      client.close();
+      MongoClient.connect(url, function(err, client) {
+        if (err) throw err;
+        var dbo = client.db("id_qr"); 
+        dbo.collection("CLUES").aggregate([{ $group: { _id: "$CLUES_ENTIDAD" }}]).toArray(function(err, result_entidad) {
+          if (err) throw err;
+          else{
+            client.close();
+            MongoClient.connect(url, function(err, client) {
+            if (err) throw err;
+            var dbo = client.db("id_qr"); 
+            dbo.collection("CLUES").aggregate([{ $group: { _id: "$CLUES_LOCALIDAD" }}]).toArray(function(err, result_localidad) {
+              if (err) throw err;
+              else{
+                client.close();
+              MongoClient.connect(url, function(err, client) {
+              if (err) throw err;
+              var dbo = client.db("id_qr"); 
+              dbo.collection("CLUES").aggregate([{ $group: { _id: "$CLUES_JURISDICCIÓN" }}]).toArray(function(err, result_jurisdiccion) {
+                if (err) throw err;
+                else{
+                  client.close();
+                  MongoClient.connect(url, function(err, client) {
+                  if (err) throw err;
+                  var dbo = client.db("id_qr"); 
+                  dbo.collection("CLUES").aggregate([{ $group: { _id: "$CLUES_MUNICIPIO" }}]).toArray(function(err, result_municipio) {
+                    if (err) throw err;
+                    else{
+                      res.render('config.ejs', {mensaje: "", unidades:  result_unidad, estados: result_entidad, municipios: result_municipio, localidades: result_localidad, jurisdicciones: result_jurisdiccion});
+                    }
+                  });
+                  });
+                }
+              });
+              }); 
+              }
+            });
+          });
+          }
+        });
+      client.close();
+      });
+      }
+    });
+  });
+
+
+
+  //res.render('config.ejs', {mensaje: "", codigos: ""});
+});
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -75,69 +148,85 @@ app.post('/sesion', (req, res) => {
   let body = req.body;
   let user = body.name;
   let pass = body.password;
+  //console.log(body);
 
-  console.log(body);
+  if(user == "" || pass == ""){
+    res.render('sesion.ejs', {mensaje: "Los campos deben tener valores."});
+  }else{
+    MongoClient.connect(url, function(err, client) {
+      if (err) throw err;
+      var dbo = client.db("id_qr"); 
+      var userobj = { usuario: user }
+
+      dbo.collection("Users").findOne(userobj, function(err, result) {
+        if (err) throw err;
+        else{
+          if(result !== null){
+            console.log('Usuario encontrado');
+            //console.log(result);
+            var pass_hash = result.password; 
+            console.log(pass_hash);
+            client.close(); //Closing first query
+            bcrypt.compare(pass, pass_hash, function(err, out) {
+              if( out === true){
+                console.log('Password coinciden');
+
+                MongoClient.connect(url, function(err, client) {
+                  if (err) throw err;
+                  var dbo = client.db("id_qr"); 
+                dbo.collection("ID_Raspberry").find({}).toArray(function(err, result) {
+                  if (err) throw err;
+                  else{
+                      res.render('admin.ejs', {mensaje: "", codigos: result});
+                    }
+                  });
+                  client.close();
+                  });
+
+                //res.sendFile( __dirname + '/pages/admin.html' );
+              }else{
+                console.log('Password no coinciden');
+                res.render('sesion.ejs', {mensaje: "Usuario y/o contraseña no validos"});
+                //res.redirect('/');
+              }
+            });
+
+          } else{
+            console.log('Usuario no encontrado');
+            res.render('sesion.ejs', {mensaje: "Usuario no dado de alta"});
+            //res.redirect('/');
+          }
+        }
+      });
+      //client.close();
+    });
+  }
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+// Administrador
+app.post('/administrador', (req, res) => {
 
   MongoClient.connect(url, function(err, client) {
     if (err) throw err;
     var dbo = client.db("id_qr"); 
-    var userobj = { usuario: user }
-
-    dbo.collection("Users").findOne(userobj, function(err, result) {
-      if (err) throw err;
-      else{
-        if(result !== null){
-          console.log('Usuario encontrado');
-          //console.log(result);
-          var pass_hash = result.password; 
-          console.log(pass_hash);
-          client.close(); //Closing first query
-          bcrypt.compare(pass, pass_hash, function(err, out) {
-            if( out === true){
-              console.log('Password coinciden');
-
-              MongoClient.connect(url, function(err, client) {
-                if (err) throw err;
-                var dbo = client.db("id_qr"); 
-              dbo.collection("ID_Raspberry").find({}).toArray(function(err, result) {
-                if (err) throw err;
-                else{
-                    res.render('admin.ejs', {mensaje: "", codigos: result});
-                  }
-                });
-                client.close();
-                });
-
-              //res.sendFile( __dirname + '/pages/admin.html' );
-            }else{
-              console.log('Password no coinciden');
-              res.render('sesion.ejs', {mensaje: "Usuario y/o contraseña no validos"});
-              //res.redirect('/');
-            }
-          });
-
-        } else{
-          console.log('Usuario no encontrado');
-          res.render('sesion.ejs', {mensaje: "Usuario no dado de alta"});
-          //res.redirect('/');
-        }
+    dbo.collection("ID_Raspberry").find({}).toArray(function(err, result) {
+    if (err) throw err;
+    else{
+      console.log(result);
+      res.render('admin.ejs', {mensaje: "", codigos: result});
       }
     });
-    //client.close();
-  });
-
-  //res.redirect('/');
+    client.close();
+    });
 
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-
 // Registro 
-app.post('/registro', (req, res) => {
+app.post('/registro-validate', (req, res) => {
   
   let body = req.body;
   console.log(body);
@@ -145,45 +234,47 @@ app.post('/registro', (req, res) => {
   let pass = body.password;
   let pass_again = body.passwordA;
 
-  var n = pass.localeCompare(pass_again);
+  if(user == "" || pass == "" || pass_again == ""){
+    res.render('registro.ejs', {mensaje: "Los campos deben tener valores."});
+  }else{
+    var n = pass.localeCompare(pass_again);
 
-  if(n == 0){
-    bcrypt.genSalt(10, function(err, salt) {
-      bcrypt.hash(pass, salt, function(err, hash) {
-        var userobj = { usuario: user }
-        var myobj = { usuario: user, password: hash };
-        console.log(hash);
-        
-        
-        MongoClient.connect(url, function(err, client) {
-          if (err) throw err;
-          var dbo = client.db("id_qr"); 
-      
-          dbo.collection("Users").find(userobj).toArray(function(err, result) {
+    if(n == 0){
+      bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(pass, salt, function(err, hash) {
+          var userobj = { usuario: user }
+          var myobj = { usuario: user, password: hash };
+          console.log(hash);
+          
+          
+          MongoClient.connect(url, function(err, client) {
             if (err) throw err;
-            else{
-              if (result.length){ 
-                console.log('Usuario existente');
-                res.render('registro.ejs', {mensaje: "Usuario ya existente, ingrese uno nuevo."});
-              } else{
-                console.log('Usuario nuevo');
-                dbo.collection("Users").insertOne(myobj, function(err, result) {
-                  if (err) throw err;
-                  console.log('saved to database');
-                });
-                client.close();
-                res.redirect('/sesion');
+            var dbo = client.db("id_qr"); 
+        
+            dbo.collection("Users").find(userobj).toArray(function(err, result) {
+              if (err) throw err;
+              else{
+                if (result.length){ 
+                  console.log('Usuario existente');
+                  res.render('registro.ejs', {mensaje: "Usuario ya existente, ingrese uno nuevo."});
+                } else{
+                  console.log('Usuario nuevo');
+                  dbo.collection("Users").insertOne(myobj, function(err, result) {
+                    if (err) throw err;
+                    console.log('saved to database');
+                  });
+                  client.close();
+                  res.redirect('/sesion');
+                }
               }
-            }
+            });
           });
         });
       });
-    });
-  } else{
-    res.render('registro.ejs', {mensaje: "Las contraseñas no coinciden."});
+    } else{
+      res.render('registro.ejs', {mensaje: "Las contraseñas no coinciden."});
+    }
   }
-
-
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -340,9 +431,117 @@ app.post('/buscar', (req, res) => {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
+app.post('/configuracion-actualizada', (req, res) => { 
 
-app.post('/configuracion', (req, res) => { 
-  res.sendFile( __dirname + '/pages/configuracion.html' );
+  const csvFilePath='/home/martin/Descargas/data.csv';
+  const csv=require('csvtojson');
+
+  MongoClient.connect(url, function(err, client) {
+    if (err) throw err;
+    var dbo = client.db("id_qr"); 
+  dbo.collection("CLUES").drop(function(err, result) {
+    if (err) throw err;
+    if (result) console.log("Collection deleted");
+    client.close();
+    });
+  });  
+
+  csv()
+    .fromFile(csvFilePath)
+    .then((jsonArray)=>{
+
+      console.log(jsonArray);
+
+      const len = jsonArray.length;
+      console.log(len);
+
+      MongoClient.connect(url, function(err, client) {
+        if (err) throw err;
+        var dbo = client.db("id_qr"); 
+
+        for (i = 0; i < len; i++) {
+          
+            dbo.collection("CLUES").insertOne(jsonArray[i], function(err, result) {
+              if (err) throw err;
+              console.log('saved to database');
+            });
+          }
+            client.close();
+        });
+        
+        MongoClient.connect(url, function(err, client) {
+          if (err) throw err;
+          var dbo = client.db("id_qr"); 
+        dbo.collection("ID_Raspberry").find({}).toArray(function(err, result) {
+          if (err) throw err;
+          else{
+              res.render('admin.ejs', {mensaje: "", codigos: result});
+            }
+          });
+          client.close();
+        });
+
+  });
+
+  /*async function start() {
+
+    const jsonArray=await csv().fromFile(csvFilePath);
+    //console.log(jsonArray);
+    //console.log("=================================================");
+    /*const objJson = Object.assign({},jsonArray);
+    console.log(objJson);*/
+ /*   const len = jsonArray.length;
+    console.log(len);
+
+    MongoClient.connect(url, function(err, client) {
+      if (err) throw err;
+      var dbo = client.db("id_qr"); 
+
+      for (i = 0; i < len; i++) {
+        
+          dbo.collection("CLUES").insertOne(jsonArray[i], function(err, result) {
+            if (err) throw err;
+            console.log('saved to database');
+          });
+        }
+          client.close();
+          update();
+      });
+
+      
+    /*console.log("=================================================");
+    const string = JSON.stringify(jsonArray);
+    console.log(string);
+    console.log("=================================================");
+    const out = string.replace('[','').replace(']','');
+    console.log(out);
+    console.log("=================================================");*/
+      
+  /*}*/
+
+  //start();
+
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+// API
+
+app.get('/api/v1/database', (req, res) => {
+
+  MongoClient.connect(url, function(err, client) {
+    if (err) throw err;
+    var dbo = client.db("id_qr"); 
+    dbo.collection("CLUES").aggregate([{ $group: { _id: { Estado: "$CLUES_ENTIDAD",Municipio: "$CLUES_MUNICIPIO",Localidad: "$CLUES_LOCALIDAD",Jurisdiccion: "$CLUES_JURISDICCIÓN",Unidad: "$NOMBRE DE LA UNIDAD",CLUES: "$CLUES" }}}]).toArray(function(err, result) {
+    if (err) throw err;
+    else{
+      //console.log(result);
+      res.send(result);
+    }
+    client.close();
+    });
+    });
+
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////////

@@ -8,7 +8,7 @@ scanner.addListener('scan',function(content){
     alert('Escaneo de código QR realizado');
 
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://qr-lector.herokuapp.com/qrdata/'+content, true);
+    xhr.open('GET', 'http://localhost:3000/qrdata/'+content, true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         // do something to response

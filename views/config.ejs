@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <title>Administrador</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="assets/css/bootstrap.min.css" rel="stylesheet">-->
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/full-width-pics.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+
+    <script>
+        $(document).ready(function(){
+
+            //////////////////////////////////////////////////////////////////////////////
+            $("a#estado").click(function(){
+                $("div#first_localidad").hide();
+                $("div#second_localidad").show();
+                $("div#first_municipio").hide();
+                $("div#second_municipio").show();
+
+                var estado = $(this).attr("value");
+                console.log(estado);
+                $("h4#estado_selected").html(estado.toLowerCase());
+                
+                $( "div#second_municipio_inserted" ).empty();
+
+                $.getJSON("http://localhost:3000/api/v1/database", function(data){
+                    $.each(data, function (index, value) {
+                        if( value._id.Estado == estado){
+                            console.log(value);
+                            $("div#second_municipio_inserted").append("<a id=\"second_municipio_selected\" value=\""+value._id.Municipio+"\" class=\"dropdown-item\">"+value._id.Municipio+"</a>");
+                        }
+                    });
+
+                    $("a#second_municipio_selected").click(function(){
+                    
+                    var municipio = $(this).attr("value");
+                    console.log(municipio);
+                    $("h4#municipio_text").html(municipio.toLowerCase());
+                    
+                    $( "div#second_localidad_inserted" ).empty();
+
+                        $.getJSON("http://localhost:3000/api/v1/database", function(data){
+                            $.each(data, function (index, value) {
+                                if( value._id.Municipio == municipio){
+                                    console.log(value);
+                                    $("div#second_localidad_inserted").append("<a id=\"second_localidad_selected\" value=\""+value._id.Localidad+"\" class=\"dropdown-item\">"+value._id.Localidad+"</a>");
+                                }
+                            });
+
+                            $("a#second_localidad_selected").click(function(){
+                    
+                            var localidad = $(this).attr("value");
+                            console.log(localidad);
+                            $("h4#localidad_text").html(localidad.toLowerCase());
+                            
+                                $.getJSON("http://localhost:3000/api/v1/database", function(data){
+                                    $.each(data, function (index, value) {
+                                        if( value._id.Localidad == localidad){
+                                            console.log(value);
+                                            
+                                        }
+                                    });
+
+                                }); 
+                            });
+                        }); 
+                    });
+                });
+            });
+
+            ////////////////////////////////////////////////////////////////////////////////
+
+            $("a#municipio_selected").click(function(){
+                
+                var municipio = $(this).attr("value");
+                console.log(municipio);
+                $("h4#municipio_text").html(municipio.toLowerCase());
+                
+                $.getJSON("http://localhost:3000/api/v1/database", function(data){
+                    $.each(data, function (index, value) {
+                        if( value._id.Municipio == municipio){
+                            console.log(value);
+                        }
+                    });
+                
+                });
+                
+            });
+
+            ////////////////////////////////////////////////////////////////////////////////
+
+            $("a#localidad_selected").click(function(){
+                
+                var localidad = $(this).attr("value");
+                console.log(localidad);
+                $("h4#localidad_text").html(localidad.toLowerCase());
+                
+                $.getJSON("http://localhost:3000/api/v1/database", function(data){
+                    $.each(data, function (index, value) {
+                        if( value._id.Localidad == localidad){
+                            console.log(value);
+                        }
+                    });
+                
+                });
+                
+            });
+
+        });
+
+    </script>
+
+    <style>
+        .btn-link{
+            color: #B8B9BA;
+        }
+        .btn-link:hover {
+            color: #E8EEF4;
+            background-color: #427BB4;
+        }
+    </style>
+
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <span class="navbar-brand" href="#"><font size="+3">Cadena de frío</font></span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <form action="/administrador" method="POST">
+                        <button type="submit" class="btn btn-link" style="text-decoration:none">Administrador</button>
+                    </form>
+                </li>
+                <li class="nav-item">
+                    <form action="/qr-code" method="POST">
+                        <button type="submit" class="btn btn-link" style="text-decoration:none">Lector QR</button>
+                    </form>
+                </li>
+                <li class="nav-item">
+                    <form action="/registro" method="POST">
+                        <button type="submit" class="btn btn-link" style="text-decoration:none">Sign Up</button>
+                    </form>
+                </li>
+                <li class="nav-item">
+                    <!-- <a class="nav-link" href="/">Cerrar Sesión</a> -->
+                    <form action="/" method="GET">
+                        <button type="submit" class="btn btn-link" style="text-decoration:none">Cerrar Sesión</button>
+                    </form>
+                </li>
+            </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container" style="width: 100%;" id="container">
+        
+        <ol id="breadcrumb" class="breadcrumb" hidden style="margin-left: 8px;"></ol>
+        <div class="row">
+            
+            <div class="col-xs-6 col-sm-12 col-lg-12">
+                    <!-- <div class="inicio-sesion">-->
+                <div class="bottom-buffer" style="margin-left: 8px; margin-top: 50px;">
+                        <h2>Configuración</h2>
+                </div>
+                
+                <form role="form" action="/configuracion-actualizada" method="POST">
+                    
+                   <!-- <div class="clearfix" style="margin-top: 20px;">
+                        <div class="pull-right">
+                            <h4>Base de datos</h4>
+                            <input class="btn btn-success" type="submit" value="Actualizar" style="float: right;" disabled>
+                        </div>
+                    </div> -->
+
+                    <div class="row" style id="divMsgError">
+                    
+                        <div class="col-xs-6 col-sm-12 col-lg-12">
+    
+                            <% if(mensaje.length != 0) {%>
+                                <div class="alert">
+                                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                                    <strong><%= mensaje %></strong>
+                                </div>
+                            <% } %>
+                            
+                        </div>
+                    </div>
+                    
+                </form>   
+                
+
+
+                <div class="jumbotron jumbotron-fluid" style="margin-top: 50px;">
+                        <div class="container">
+                    
+                <form role="form" action="/registro-validate" method="POST">
+                    <div class="bottom-buffer" style="margin-left: 50px; margin-top: -10px; margin-right: 50px;">
+                        <!-- <div class="form-group">
+                            <h4 class="config_options">Unidad:</h4>
+                                <div class="combo_fields">
+                                    <select class="select_config">
+                                        <% for(var i=0; i<unidades.length; i++) {%>
+                                        <option><%= unidades[i]._id %></option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                            </div> -->
+                        <div class="form-group">
+                            <h4 class="config_options">Estado: <h4 id="estado_selected"></h4></h4>
+                            <div class="combo_fields">
+                                <div class="btn-group btn-lg btn-block" role="group">
+                                    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle  btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Seleccione
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="width: 100%;">
+                                        <% for(var i=0; i<estados.length; i++) {%>
+                                            <a id="estado" value="<%= estados[i]._id %>" class="dropdown-item"><%= estados[i]._id %></a>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h4 class="config_options">Municipio: <h4 id="municipio_text"></h4></h4>
+                            <div class="combo_fields">
+                                <div id="first_municipio" class="btn-group btn-lg btn-block" role="group">
+                                    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle  btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Seleccione
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="width: 100%;">
+                                        <% for(var i=0; i<municipios.length; i++) {%>
+                                            <a id="municipio_selected" value="<%= municipios[i]._id %>" class="dropdown-item"><%= municipios[i]._id %></a>
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <div id="second_municipio" class="btn-group btn-lg btn-block" role="group" style="display:none">
+                                    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle  btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Seleccione
+                                    </button>
+                                    <div id="second_municipio_inserted" class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="width: 100%;">
+                                            <!-- <a id="second_localidad_selected" value="" class="dropdown-ite"></a>-->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h4 class="config_options">Localidad: <h4 id="localidad_text"></h4></h4>
+                            <div class="combo_fields">
+                                <div id="first_localidad" class="btn-group btn-lg btn-block" role="group">
+                                    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle  btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Seleccione
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="width: 100%;">
+                                        <% for(var i=0; i<localidades.length; i++) {%>
+                                            <a id="localidad_selected" value="<%= localidades[i]._id %>" class="dropdown-item"><%= localidades[i]._id %></a>
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <div id="second_localidad" class="btn-group btn-lg btn-block" role="group" style="display:none">
+                                    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle  btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Seleccione
+                                    </button>
+                                    <div id="second_localidad_inserted" class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="width: 100%;">
+                                            <!-- <a id="second_localidad_selected" value="" class="dropdown-ite"></a>-->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h4 class="config_options">Jurisdicción:</h4>
+                            <div class="combo_fields">
+                                <select class="select_config">
+                                    <% for(var i=0; i<jurisdicciones.length; i++) {%>
+                                    <option><%= jurisdicciones[i]._id %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="clearfix">
+                            <div class="pull-right">
+                                <input class="btn btn-success" type="submit" value="Aceptar" style="float: right;">
+                            </div>
+                        </div>
+                    </div>
+                </form> 
+
+            </div>
+        </div>
+
+
+            </div>
+        </div>
+    </div>    
+
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- <script src="assets/jquery/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script> -->
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+</body>
+</html>

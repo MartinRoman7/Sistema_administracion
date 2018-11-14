@@ -19,7 +19,17 @@
     <!-- Custom styles for this template -->
     <link href="assets/css/full-width-pics.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/css/style_video.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+    <style>
+        .btn-link{
+            color: #B8B9BA;
+        }
+        .btn-link:hover {
+            color: #E8EEF4;
+            background-color: #427BB4;
+        }
+    </style>
 
 </head>
 <body>
@@ -33,19 +43,26 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                <a class="nav-link" href="/">Home
-                    <span class="sr-only">(current)</span>
-                </a>
+                <li class="nav-item">
+                    <form action="/administrador" method="POST">
+                        <button type="submit" class="btn btn-link" style="text-decoration:none">Administrador</button>
+                    </form>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="/sesion">Sesión</a>
+                    <form action="/qr-code" method="POST">
+                        <button type="submit" class="btn btn-link" style="text-decoration:none">Lector QR</button>
+                    </form>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="/qr-code">Lector QR</a>
+                    <form action="/registro" method="POST">
+                        <button type="submit" class="btn btn-link" style="text-decoration:none">Sign Up</button>
+                    </form>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="/registro">Sing-Up</a>
+                    <!-- <a class="nav-link" href="/">Cerrar Sesión</a> -->
+                    <form action="/" method="GET">
+                        <button type="submit" class="btn btn-link" style="text-decoration:none">Cerrar Sesión</button>
+                    </form>
                 </li>
             </ul>
             </div>
