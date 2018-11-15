@@ -20,104 +20,269 @@
     
 
     <script>
+        var estado;
+        var municipio;
+        var jurisdiccion;
+        var localidad;
+        var unidad;
+        var clues;
+        var codigo;
+
         $(document).ready(function(){
 
             //////////////////////////////////////////////////////////////////////////////
+
             $("a#estado").click(function(){
-                $("div#first_localidad").hide();
-                $("div#second_localidad").show();
-                $("div#first_municipio").hide();
+                //$("div#first_municipio").hide();
                 $("div#second_municipio").show();
-
-                var estado = $(this).attr("value");
+                //$("div#first_jurisdiccion").hide();
+                $("div#second_jurisdiccion").show();
+                $("div#title_municipio").show();
+                $("div#title_jurisdiccion").show();
+                
+                estado = $(this).attr("value");
                 console.log(estado);
-                $("h4#estado_selected").html(estado.toLowerCase());
                 
-                $( "div#second_municipio_inserted" ).empty();
+                $("h4#estado_text").html(estado.toLowerCase());
+                $("ul#second_municipio_inserted").empty();
+                $("ul#second_jurisdiccion_inserted").empty();
 
-                $.getJSON("http://localhost:3000/api/v1/database", function(data){
+
+                $.getJSON("http://localhost:3000/api/v1/database/estado/municipio/"+estado, function(data){
                     $.each(data, function (index, value) {
-                        if( value._id.Estado == estado){
-                            console.log(value);
-                            $("div#second_municipio_inserted").append("<a id=\"second_municipio_selected\" value=\""+value._id.Municipio+"\" class=\"dropdown-item\">"+value._id.Municipio+"</a>");
-                        }
+                        console.log(value._id.Municipio);
+                        $("ul#second_municipio_inserted").append("<li><a id=\"second_municipio_selected\" value=\""+value._id.Municipio+"\" class=\"dropdown-item\">"+value._id.Municipio+"</a></li>"); 
                     });
 
-                    $("a#second_municipio_selected").click(function(){
-                    
-                    var municipio = $(this).attr("value");
-                    console.log(municipio);
-                    $("h4#municipio_text").html(municipio.toLowerCase());
-                    
-                    $( "div#second_localidad_inserted" ).empty();
-
-                        $.getJSON("http://localhost:3000/api/v1/database", function(data){
-                            $.each(data, function (index, value) {
-                                if( value._id.Municipio == municipio){
-                                    console.log(value);
-                                    $("div#second_localidad_inserted").append("<a id=\"second_localidad_selected\" value=\""+value._id.Localidad+"\" class=\"dropdown-item\">"+value._id.Localidad+"</a>");
-                                }
-                            });
-
-                            $("a#second_localidad_selected").click(function(){
-                    
-                            var localidad = $(this).attr("value");
-                            console.log(localidad);
-                            $("h4#localidad_text").html(localidad.toLowerCase());
+                        $("a#second_municipio_selected").click(function(){
+            
+                            municipio = $(this).attr("value");
+                            console.log(municipio);
                             
-                                $.getJSON("http://localhost:3000/api/v1/database", function(data){
-                                    $.each(data, function (index, value) {
-                                        if( value._id.Localidad == localidad){
-                                            console.log(value);
-                                            
-                                        }
+                            $("h4#municipio_text").html(municipio.toLowerCase());
+                            $("ul#second_jurisdiccion_inserted").empty();
+                            //$("ul#second_localidad_inserted").empty();
+                            //$("div#title_localidad").show();
+                            //$("div#second_localidad").show();
+
+                            $.getJSON("http://localhost:3000/api/v1/database/municipio/jurisdiccion/"+municipio, function(data){
+                                $.each(data, function (index, value) {
+                                    console.log(value._id.Jurisdiccion);
+                                    $("ul#second_jurisdiccion_inserted").append("<li><a id=\"second_jurisdiccion_selected\" value=\""+value._id.Jurisdiccion+"\" class=\"dropdown-item\">"+value._id.Jurisdiccion+"</a></li>");
+                                });
+                                
+                                    $("a#second_jurisdiccion_selected").click(function(){
+                    
+                                        jurisdiccion = $(this).attr("value");
+                                        console.log(jurisdiccion);
+                    
+                                        $("h4#jurisdiccion_text").html(jurisdiccion.toLowerCase());
+                                        $("ul#second_localidad_inserted").empty();
+
+                                        $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion-municipio/localidad/"+jurisdiccion+"&"+municipio, function(data){
+                                            $.each(data, function (index, value) {
+                                                console.log(value._id.Localidad);
+                                                $("ul#second_localidad_inserted").append("<li><a id=\"second_localidad_selected\" value=\""+value._id.Localidad+"\" class=\"dropdown-item\">"+value._id.Localidad+"</a></li>");
+                                            });
+                                                
+                                                $("div#title_localidad").show();
+                                                $("div#second_localidad").show();
+                                                $("div#second_municipio").hide();
+                                                $("div#second_jurisdiccion").hide();
+
+                                                $("a#second_localidad_selected").click(function(){
+                                                    localidad = $(this).attr("value");
+                                                    console.log(localidad);
+                                                    
+                                                    $("h4#localidad_text").html(localidad.toLowerCase());
+                                                    $("ul#second_us_inserted").empty();
+                                                    $("ul#second_clues_inserted").empty();
+
+                                                    $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
+                                                        $.each(data, function (index, value) {
+                                                            console.log("unidad API: "+value._id.Unidad);
+                                                            console.log("clues API: "+value._id.CLUES);
+                                                            $("ul#second_us_inserted").append("<li><a id=\"second_us_selected\" value=\""+value._id.Unidad+"\" class=\"dropdown-item\">"+value._id.Unidad+"</a></li>");
+                                                            $("ul#second_clues_inserted").append("<li><a id=\"second_clues_selected\" value=\""+value._id.CLUES+"\" class=\"dropdown-item\">"+value._id.CLUES+"</a></li>");
+                                                        });
+
+                                                        $("div#title_us").show();
+                                                        $("div#second_us").show();
+                                                        $("div#title_clues").show();
+                                                        $("div#second_clues").show();
+                                                        $("div#second_localidad").hide();
+
+                                                        $("a#second_us_selected").click(function(){
+                                                            unidad = $(this).attr("value");
+                                                            console.log("Click unidad: "+unidad);
+
+                                                            $("h4#us_text").html(unidad.toLowerCase());
+
+                                                            $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
+                                                                $.each(data, function (index, value) {
+                                                                    if( value._id.Unidad == unidad){
+                                                                        console.log(value._id.CLUES);
+                                                                        clues = value._id.CLUES;
+                                                                        $("h4#clues_text").html(value._id.CLUES.toLowerCase());
+                                                                    }
+                                                                });
+                                                                $("div#second_us").hide();
+                                                                $("div#second_clues").hide();
+                                                            });
+                                                        });
+
+                                                        $("a#second_clues_selected").click(function(){
+                                                            clues = $(this).attr("value");
+                                                            console.log(clues);
+
+                                                            $("h4#clues_text").html(clues.toLowerCase());
+
+                                                            $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
+                                                                $.each(data, function (index, value) {
+                                                                    if( value._id.CLUES == clues){
+                                                                        console.log(value._id.Unidad);
+                                                                        unidad = value._id.Unidad;
+                                                                        $("h4#us_text").html(value._id.Unidad.toLowerCase());
+                                                                    }
+                                                                });
+                                                                $("div#second_us").hide();
+                                                                $("div#second_clues").hide();
+                                                            });
+                                                        });
+                                                    });
+                                                });
+                                        });
                                     });
-
-                                }); 
                             });
-                        }); 
-                    });
+                        });   
                 });
+
+                $.getJSON("http://localhost:3000/api/v1/database/estado/jurisdiccion/"+estado, function(data){
+                    $.each(data, function (index, value) {
+                        console.log(value._id.Jurisdiccion);
+                        $("ul#second_jurisdiccion_inserted").append("<li><a id=\"second_jurisdiccion_selected\" value=\""+value._id.Jurisdiccion+"\" class=\"dropdown-item\">"+value._id.Jurisdiccion+"</a></li>"); 
+                    });
+
+                        $("a#second_jurisdiccion_selected").click(function(){
+                
+                            jurisdiccion = $(this).attr("value");
+                            console.log(jurisdiccion);
+
+                            $("h4#jurisdiccion_text").html(jurisdiccion.toLowerCase());
+                            $("ul#second_municipio_inserted").empty();
+
+                            $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion/municipio/"+jurisdiccion, function(data){
+                                $.each(data, function (index, value) {
+                                    console.log(value._id.Municipio);
+                                    $("ul#second_municipio_inserted").append("<li><a id=\"second_municipio_selected\" value=\""+value._id.Municipio+"\" class=\"dropdown-item\">"+value._id.Municipio+"</a></li>");   
+                                });
+                                
+                                    $("a#second_municipio_selected").click(function(){
+                        
+                                        municipio = $(this).attr("value");
+                                        console.log(municipio);
+
+                                        $("h4#municipio_text").html(municipio.toLowerCase());
+                                        $("ul#second_localidad_inserted").empty();
+
+                                        $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion-municipio/localidad/"+jurisdiccion+"&"+municipio, function(data){
+                                            $.each(data, function (index, value) {
+                                                console.log(value._id.Localidad);
+                                                $("ul#second_localidad_inserted").append("<li><a id=\"second_localidad_selected\" value=\""+value._id.Localidad+"\" class=\"dropdown-item\">"+value._id.Localidad+"</a></li>");
+                                            });
+                                                
+                                                $("div#title_localidad").show();
+                                                $("div#second_localidad").show();
+                                                $("div#second_municipio").hide();
+                                                $("div#second_jurisdiccion").hide();
+
+                                                $("a#second_localidad_selected").click(function(){
+                                                    localidad = $(this).attr("value");
+                                                    console.log(localidad);
+                                                    
+                                                    $("h4#localidad_text").html(localidad.toLowerCase());
+                                                    $("ul#second_us_inserted").empty();
+                                                    $("ul#second_clues_inserted").empty();
+
+                                                    $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
+                                                        $.each(data, function (index, value) {
+                                                            console.log(value._id.Unidad);
+                                                            console.log(value._id.CLUES);
+                                                            $("ul#second_us_inserted").append("<li><a id=\"second_us_selected\" value=\""+value._id.Unidad+"\" class=\"dropdown-item\">"+value._id.Unidad+"</a></li>");
+                                                            $("ul#second_clues_inserted").append("<li><a id=\"second_clues_selected\" value=\""+value._id.CLUES+"\" class=\"dropdown-item\">"+value._id.CLUES+"</a></li>");
+                                                        });
+
+                                                        $("div#title_us").show();
+                                                        $("div#second_us").show();
+                                                        $("div#title_clues").show();
+                                                        $("div#second_clues").show();
+                                                        $("div#second_localidad").hide();
+
+                                                        $("a#second_us_selected").click(function(){
+                                                            unidad = $(this).attr("value");
+                                                            console.log(unidad);
+
+                                                            $("h4#us_text").html(unidad.toLowerCase());
+
+                                                            $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
+                                                                $.each(data, function (index, value) {
+                                                                    if( value._id.Unidad == unidad){
+                                                                        console.log(value._id.CLUES);
+                                                                        clues = value._id.CLUES;
+                                                                        $("h4#clues_text").html(value._id.CLUES.toLowerCase());
+                                                                    }
+                                                                });
+                                                                $("div#second_us").hide();
+                                                                $("div#second_clues").hide();
+                                                            });
+                                                        });
+
+                                                        $("a#second_clues_selected").click(function(){
+                                                            clues = $(this).attr("value");
+                                                            console.log(clues);
+
+                                                            $("h4#clues_text").html(clues.toLowerCase());
+
+                                                            $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
+                                                                $.each(data, function (index, value) {
+                                                                    if( value._id.CLUES == clues){
+                                                                        console.log(value._id.Unidad);
+                                                                        unidad = value._id.Unidad;
+                                                                        $("h4#us_text").html(value._id.Unidad.toLowerCase());
+                                                                    }
+                                                                });
+                                                                $("div#second_us").hide();
+                                                                $("div#second_clues").hide();
+                                                            });
+                                                        });
+
+                                                    });
+                                                });
+                                        });
+                                    });
+                            });
+                        });
+                });  
             });
 
             ////////////////////////////////////////////////////////////////////////////////
 
-            $("a#municipio_selected").click(function(){
-                
-                var municipio = $(this).attr("value");
-                console.log(municipio);
-                $("h4#municipio_text").html(municipio.toLowerCase());
-                
-                $.getJSON("http://localhost:3000/api/v1/database", function(data){
-                    $.each(data, function (index, value) {
-                        if( value._id.Municipio == municipio){
-                            console.log(value);
-                        }
-                    });
-                
+            $("#btn-send").click(function(){
+                codigo = $("#codigo_text").attr("value");
+                console.log(codigo);
+                console.log(estado);
+                $.post("http://localhost:3000/configuracion-actualizada",
+                {
+                    estado: estado,
+                    municipio: municipio,
+                    jurisdiccion: jurisdiccion,
+                    localidad: localidad,
+                    unidad: unidad,
+                    clues: clues,
+                    codigo: codigo
                 });
-                
+                alert("Datos actualizados");
             });
-
-            ////////////////////////////////////////////////////////////////////////////////
-
-            $("a#localidad_selected").click(function(){
-                
-                var localidad = $(this).attr("value");
-                console.log(localidad);
-                $("h4#localidad_text").html(localidad.toLowerCase());
-                
-                $.getJSON("http://localhost:3000/api/v1/database", function(data){
-                    $.each(data, function (index, value) {
-                        if( value._id.Localidad == localidad){
-                            console.log(value);
-                        }
-                    });
-                
-                });
-                
-            });
-
         });
 
     </script>
@@ -182,14 +347,14 @@
                         <h2>Configuración</h2>
                 </div>
                 
-                <form role="form" action="/configuracion-actualizada" method="POST">
+                <!-- <form role="form" action="/database-actualizada" method="POST">
                     
-                   <!-- <div class="clearfix" style="margin-top: 20px;">
+                   <div class="clearfix" style="margin-top: 20px;">
                         <div class="pull-right">
                             <h4>Base de datos</h4>
                             <input class="btn btn-success" type="submit" value="Actualizar" style="float: right;" disabled>
                         </div>
-                    </div> -->
+                    </div> 
 
                     <div class="row" style id="divMsgError">
                     
@@ -205,14 +370,15 @@
                         </div>
                     </div>
                     
-                </form>   
+                </form> --> 
                 
 
-
-                <div class="jumbotron jumbotron-fluid" style="margin-top: 50px;">
-                        <div class="container">
-                    
-                <form role="form" action="/registro-validate" method="POST">
+    
+        <div class="jumbotron jumbotron-fluid" style="margin-top: 50px;">
+            <div class="container">         
+                <!-- <form role="form" action="/configuracion-actualizada" method="POST"> -->
+                    <h3 id="codigo_text" value="<%= id_codigos %>" style="text-align:center;"><%= id_codigos %></h3>
+                    <hr class="my-4">
                     <div class="bottom-buffer" style="margin-left: 50px; margin-top: -10px; margin-right: 50px;">
                         <!-- <div class="form-group">
                             <h4 class="config_options">Unidad:</h4>
@@ -224,70 +390,162 @@
                                     </select>
                                 </div>
                             </div> -->
-                        <div class="form-group">
-                            <h4 class="config_options">Estado: <h4 id="estado_selected"></h4></h4>
+
+                    <!------------------------------------------------------------------------------------------------------------------>
+
+                        <div class="form-group" style="margin-top:50px;">
+                            <h4 class="config_options">Estado: <h4 id="estado_text"></h4></h4>
                             <div class="combo_fields">
-                                <div class="btn-group btn-lg btn-block" role="group">
+                                <div id="first_estado" class="btn-group btn-lg btn-block" role="group">
+                                    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Seleccione
+                                    </button>
+                                    <ul class="dropdown-menu scrollable-menu" role="menu">    
+                                        <% for(var i=0; i<estados.length; i++) {%>
+                                            <li><a id="estado" value="<%= estados[i]._id %>" class="dropdown-item"><%= estados[i]._id %></a></li>
+                                        <% } %>
+                                    </ul>
+                                </div>
+                                <!-- <div id="second_estado" class="btn-group btn-lg btn-block" role="group" style="display:none">
                                     <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle  btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Seleccione
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="width: 100%;">
-                                        <% for(var i=0; i<estados.length; i++) {%>
-                                            <a id="estado" value="<%= estados[i]._id %>" class="dropdown-item"><%= estados[i]._id %></a>
-                                        <% } %>
-                                    </div>
-                                </div>
+                                    <ul id="second_estado_inserted" class="dropdown-menu scrollable-menu" role="menu">
+                                    </ul>
+                                </div>-->
                             </div>
                         </div>
+
+                    <!------------------------------------------------------------------------------------------------------------------>
+                        
                         <div class="form-group">
-                            <h4 class="config_options">Municipio: <h4 id="municipio_text"></h4></h4>
+                            <div id="title_municipio" style="display:none"><h4 class="config_options">Municipio: <h4 id="municipio_text"></h4></h4></div>
                             <div class="combo_fields">
-                                <div id="first_municipio" class="btn-group btn-lg btn-block" role="group">
+                                <!-- <div id="first_municipio" class="btn-group btn-lg btn-block" role="group" style="display:none">
                                     <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle  btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Seleccione
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="width: 100%;">
+                                    <ul class="dropdown-menu scrollable-menu" role="menu">    
                                         <% for(var i=0; i<municipios.length; i++) {%>
-                                            <a id="municipio_selected" value="<%= municipios[i]._id %>" class="dropdown-item"><%= municipios[i]._id %></a>
+                                            <li><a id="municipio_selected" value="<%= municipios[i]._id %>" class="dropdown-item"><%= municipios[i]._id %></a></li>
                                         <% } %>
-                                    </div>
-                                </div>
+                                    </ul>
+                                </div> -->
                                 <div id="second_municipio" class="btn-group btn-lg btn-block" role="group" style="display:none">
                                     <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle  btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Seleccione
                                     </button>
-                                    <div id="second_municipio_inserted" class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="width: 100%;">
-                                            <!-- <a id="second_localidad_selected" value="" class="dropdown-ite"></a>-->
-                                    </div>
+                                    <ul id="second_municipio_inserted" class="dropdown-menu scrollable-menu" role="menu">
+                                    </ul>
                                 </div>
-
                             </div>
                         </div>
+
+                    <!------------------------------------------------------------------------------------------------------------------>
+
                         <div class="form-group">
-                            <h4 class="config_options">Localidad: <h4 id="localidad_text"></h4></h4>
+                            <div id="title_jurisdiccion" style="display:none"><h4 class="config_options">Jurisdicción: <h4 id="jurisdiccion_text"></h4></h4></div>
                             <div class="combo_fields">
-                                <div id="first_localidad" class="btn-group btn-lg btn-block" role="group">
+                                <!-- <div id="first_jurisdiccion" class="btn-group btn-lg btn-block" role="group" style="display:none">
                                     <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle  btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Seleccione
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="width: 100%;">
-                                        <% for(var i=0; i<localidades.length; i++) {%>
-                                            <a id="localidad_selected" value="<%= localidades[i]._id %>" class="dropdown-item"><%= localidades[i]._id %></a>
+                                    <ul class="dropdown-menu scrollable-menu" role="menu">    
+                                        <% for(var i=0; i<jurisdicciones.length; i++) {%>
+                                            <li><a id="jurisdiccion_selected" value="<%= jurisdicciones[i]._id %>" class="dropdown-item"><%= jurisdicciones[i]._id %></a></li>
                                         <% } %>
-                                    </div>
+                                    </ul>
+                                </div> -->
+                                <div id="second_jurisdiccion" class="btn-group btn-lg btn-block" role="group" style="display:none">
+                                    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle  btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Seleccione
+                                    </button>
+                                    <ul id="second_jurisdiccion_inserted" class="dropdown-menu scrollable-menu" role="menu"> 
+                                    </ul>
                                 </div>
+                            </div>
+                        </div>
+                    
+                    <!------------------------------------------------------------------------------------------------------------------>
+
+                        <div class="form-group">
+                            <div id="title_localidad" style="display:none"><h4 class="config_options">Localidad: <h4 id="localidad_text"></h4></h4></div>
+                            <div class="combo_fields">
+                                <!-- <div id="first_localidad" class="btn-group btn-lg btn-block" role="group" style="display:none">
+                                    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle  btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Seleccione
+                                    </button>
+                                    <ul class="dropdown-menu scrollable-menu" role="menu">    
+                                        <% for(var i=0; i<localidades.length; i++) {%>
+                                            <li><a id="localidad_selected" value="<%= localidades[i]._id %>" class="dropdown-item"><%= localidades[i]._id %></a></li>
+                                        <% } %>
+                                    </ul>
+                                </div> -->
                                 <div id="second_localidad" class="btn-group btn-lg btn-block" role="group" style="display:none">
                                     <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle  btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Seleccione
                                     </button>
-                                    <div id="second_localidad_inserted" class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="width: 100%;">
-                                            <!-- <a id="second_localidad_selected" value="" class="dropdown-ite"></a>-->
-                                    </div>
+                                    <ul id="second_localidad_inserted" class="dropdown-menu scrollable-menu" role="menu"> 
+                                    </ul>
                                 </div>
-
                             </div>
                         </div>
-                        <div class="form-group">
+
+                    <!------------------------------------------------------------------------------------------------------------------>
+
+                    <div class="form-group">
+                        <div id="title_us" style="display:none"><h4 class="config_options">Unidad de salud: <h4 id="us_text"></h4></h4></div>
+                        <div class="combo_fields">
+                            <!-- <div id="first_us" class="btn-group btn-lg btn-block" role="group" style="display:none">
+                                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle  btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Seleccione
+                                </button>
+                                <ul class="dropdown-menu scrollable-menu" role="menu">    
+                                    <% for(var i=0; i<localidades.length; i++) {%>
+                                        <li><a id="localidad_selected" value="<%= localidades[i]._id %>" class="dropdown-item"><%= localidades[i]._id %></a></li>
+                                    <% } %>
+                                </ul>
+                            </div> -->
+                            <div id="second_us" class="btn-group btn-lg btn-block" role="group" style="display:none">
+                                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle  btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Seleccione
+                                </button>
+                                <ul id="second_us_inserted" class="dropdown-menu scrollable-menu" role="menu"> 
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!------------------------------------------------------------------------------------------------------------------>
+
+                    <div class="form-group">
+                        <div id="title_clues" style="display:none"><h4 class="config_options">CLUES: <h4 id="clues_text"></h4></h4></div>
+                        <div class="combo_fields">
+                            <!-- <div id="first_clues" class="btn-group btn-lg btn-block" role="group" style="display:none">
+                                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle  btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Seleccione
+                                </button>
+                                <ul class="dropdown-menu scrollable-menu" role="menu">    
+                                    <% for(var i=0; i<localidades.length; i++) {%>
+                                        <li><a id="localidad_selected" value="<%= localidades[i]._id %>" class="dropdown-item"><%= localidades[i]._id %></a></li>
+                                    <% } %>
+                                </ul>
+                            </div> -->
+                            <div id="second_clues" class="btn-group btn-lg btn-block" role="group" style="display:none">
+                                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle  btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Seleccione
+                                </button>
+                                <ul id="second_clues_inserted" class="dropdown-menu scrollable-menu" role="menu"> 
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!------------------------------------------------------------------------------------------------------------------>
+
+
+
+                        <!-- <div class="form-group">
                             <h4 class="config_options">Jurisdicción:</h4>
                             <div class="combo_fields">
                                 <select class="select_config">
@@ -296,16 +554,15 @@
                                     <% } %>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="clearfix">
                             <div class="pull-right">
-                                <input class="btn btn-success" type="submit" value="Aceptar" style="float: right;">
+                                <input id="btn-send" class="btn btn-success" type="submit" value="Aceptar" style="float: right; margin-top: 70px; margin-bottom: -30px;">
                             </div>
                         </div>
                     </div>
-                </form> 
-
+                <!-- </form> -->
             </div>
         </div>
 

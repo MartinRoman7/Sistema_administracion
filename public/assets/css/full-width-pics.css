@@ -111,6 +111,22 @@ th, td {
 .select_config{
   width: 100%;
 }
+
+.scrollable-menu {
+  height: auto;
+  max-height: 140px;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.combo_fields{
+  width: 100%;
+}
+
+#btnGroupDrop1{
+  width: 100%;
+}
+
 @media only screen and (max-width: 400px) {
   body {
     padding-top: 56px;

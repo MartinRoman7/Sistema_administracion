@@ -70,7 +70,8 @@ app.post('/registro', (req, res) => {
 app.post('/configuracion', (req, res) => { 
   
   let body = req.body;
-  console.log(body);
+  let id_codigo = body.codigoTable;
+
   /*MongoClient.connect(url, function(err, client) {
     if (err) throw err;
     var dbo = client.db("id_qr"); 
@@ -86,38 +87,38 @@ app.post('/configuracion', (req, res) => {
   MongoClient.connect(url, function(err, client) {
     if (err) throw err;
     var dbo = client.db("id_qr"); 
-    dbo.collection("CLUES").aggregate([{ $group: { _id: "$NOMBRE DE LA UNIDAD" }}]).toArray(function(err, result_unidad) {
+    dbo.collection("CLUES").aggregate([{ $group: { _id: "$NOMBRE DE LA UNIDAD" }},{ $sort : { "_id": 1 } }]).toArray(function(err, result_unidad) {
     if (err) throw err;
     else{
       client.close();
       MongoClient.connect(url, function(err, client) {
         if (err) throw err;
         var dbo = client.db("id_qr"); 
-        dbo.collection("CLUES").aggregate([{ $group: { _id: "$CLUES_ENTIDAD" }}]).toArray(function(err, result_entidad) {
+        dbo.collection("CLUES").aggregate([{ $group: { _id: "$CLUES_ENTIDAD" }},{ $sort : { "_id": 1 } }]).toArray(function(err, result_entidad) {
           if (err) throw err;
           else{
             client.close();
             MongoClient.connect(url, function(err, client) {
             if (err) throw err;
             var dbo = client.db("id_qr"); 
-            dbo.collection("CLUES").aggregate([{ $group: { _id: "$CLUES_LOCALIDAD" }}]).toArray(function(err, result_localidad) {
+            dbo.collection("CLUES").aggregate([{ $group: { _id: "$CLUES_LOCALIDAD" }},{ $sort : { "_id": 1 } }]).toArray(function(err, result_localidad) {
               if (err) throw err;
               else{
                 client.close();
               MongoClient.connect(url, function(err, client) {
               if (err) throw err;
               var dbo = client.db("id_qr"); 
-              dbo.collection("CLUES").aggregate([{ $group: { _id: "$CLUES_JURISDICCIÓN" }}]).toArray(function(err, result_jurisdiccion) {
+              dbo.collection("CLUES").aggregate([{ $group: { _id: "$CLUES_JURISDICCIÓN" }},{ $sort : { "_id": 1 } }]).toArray(function(err, result_jurisdiccion) {
                 if (err) throw err;
                 else{
                   client.close();
                   MongoClient.connect(url, function(err, client) {
                   if (err) throw err;
                   var dbo = client.db("id_qr"); 
-                  dbo.collection("CLUES").aggregate([{ $group: { _id: "$CLUES_MUNICIPIO" }}]).toArray(function(err, result_municipio) {
+                  dbo.collection("CLUES").aggregate([{ $group: { _id: "$CLUES_MUNICIPIO" }},{ $sort : { "_id": 1 } }]).toArray(function(err, result_municipio) {
                     if (err) throw err;
                     else{
-                      res.render('config.ejs', {mensaje: "", unidades:  result_unidad, estados: result_entidad, municipios: result_municipio, localidades: result_localidad, jurisdicciones: result_jurisdiccion});
+                      res.render('config.ejs', {mensaje: "", id_codigos: id_codigo, unidades:  result_unidad, estados: result_entidad, municipios: result_municipio, localidades: result_localidad, jurisdicciones: result_jurisdiccion});
                     }
                   });
                   });
@@ -431,7 +432,7 @@ app.post('/buscar', (req, res) => {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-app.post('/configuracion-actualizada', (req, res) => { 
+/*app.post('/database-actualizada', (req, res) => { 
 
   const csvFilePath='/home/martin/Descargas/data.csv';
   const csv=require('csvtojson');
@@ -521,18 +522,55 @@ app.post('/configuracion-actualizada', (req, res) => {
 
   //start();
 
+//});
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+// Actualizar configuración del dispositivo
+app.post('/configuracion-actualizada', (req, res) => { 
+  
+  let body = req.body;
+  console.log(body);
+
+  let estado = body.estado;
+  let municipio = body.municipio;
+  let jurisdiccion = body.jurisdiccion;
+  let localidad = body.localidad;
+  let unidad = body.unidad;
+  let clues = body.clues;
+  let codigo = body.codigo;
+
+  MongoClient.connect(url, function(err, client) {
+    if (err) throw err;
+    var dbo = client.db("id_qr");
+    
+    var myquery = { codigo: codigo };
+    var newvalues = { $set: { estado: estado, municipio: municipio, jurisdiccion: jurisdiccion, localidad: localidad, unidad: unidad, clues: clues } };
+
+    dbo.collection("ID_Raspberry").updateOne(myquery, newvalues, function(err, result) {
+    if (err) throw err;
+    else{
+      console.log(result);
+      //res.render('admin.ejs', {mensaje: "", codigos: result});
+      }
+    });
+    client.close();
+  });
+  
+
+
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-// API
+// API 
 
 app.get('/api/v1/database', (req, res) => {
 
   MongoClient.connect(url, function(err, client) {
     if (err) throw err;
     var dbo = client.db("id_qr"); 
-    dbo.collection("CLUES").aggregate([{ $group: { _id: { Estado: "$CLUES_ENTIDAD",Municipio: "$CLUES_MUNICIPIO",Localidad: "$CLUES_LOCALIDAD",Jurisdiccion: "$CLUES_JURISDICCIÓN",Unidad: "$NOMBRE DE LA UNIDAD",CLUES: "$CLUES" }}}]).toArray(function(err, result) {
+    dbo.collection("CLUES").aggregate([{ $group: { _id: { Estado: "$CLUES_ENTIDAD",Municipio: "$CLUES_MUNICIPIO",Localidad: "$CLUES_LOCALIDAD",Jurisdiccion: "$CLUES_JURISDICCIÓN",Unidad: "$NOMBRE DE LA UNIDAD",CLUES: "$CLUES" }}},{ $sort : { "_id.Estado": 1 }}]).toArray(function(err, result) {
     if (err) throw err;
     else{
       //console.log(result);
@@ -543,6 +581,173 @@ app.get('/api/v1/database', (req, res) => {
     });
 
 });
+
+// Estado - Jurisdicción
+app.get('/api/v1/database/estado/jurisdiccion/:id', (req, res) => {
+
+  let id = req.params.id;
+
+  MongoClient.connect(url, function(err, client) {
+    if (err) throw err;
+    var dbo = client.db("id_qr"); 
+    dbo.collection("CLUES").aggregate([{ "$match": { "CLUES_ENTIDAD": id }}, { $group: {_id: { Jurisdiccion: "$CLUES_JURISDICCIÓN"}}},{ $sort : { "_id.Jurisdiccion": 1 } }]).toArray(function(err, result) {
+    if (err) throw err;
+    else{
+      //console.log(result);
+      res.send(result);
+    }
+    client.close();
+    });
+    });
+
+});
+
+// Estado - Municipios
+app.get('/api/v1/database/estado/municipio/:id', (req, res) => {
+
+  let id = req.params.id;
+
+  MongoClient.connect(url, function(err, client) {
+    if (err) throw err;
+    var dbo = client.db("id_qr"); 
+    dbo.collection("CLUES").aggregate([{ "$match": { "CLUES_ENTIDAD": id }}, { $group: {_id: { Municipio: "$CLUES_MUNICIPIO"}}},{ $sort : { "_id.Municipio": 1 } }]).toArray(function(err, result) {
+    if (err) throw err;
+    else{
+      //console.log(result);
+      res.send(result);
+    }
+    client.close();
+    });
+    });
+
+});
+
+// Jurisdicción - Municipios
+app.get('/api/v1/database/jurisdiccion/municipio/:id', (req, res) => {
+
+  let id = req.params.id;
+
+  MongoClient.connect(url, function(err, client) {
+    if (err) throw err;
+    var dbo = client.db("id_qr"); 
+    dbo.collection("CLUES").aggregate([{ "$match": { "CLUES_JURISDICCIÓN": id }}, { $group: {_id: { Municipio: "$CLUES_MUNICIPIO"}}},{ $sort : { "_id.Municipio": 1 } }]).toArray(function(err, result) {
+    if (err) throw err;
+    else{
+      //console.log(result);
+      res.send(result);
+    }
+    client.close();
+    });
+    });
+
+});
+
+// Jurisdicción - Localidades
+app.get('/api/v1/database/jurisdiccion/localidad/:id', (req, res) => {
+
+  let id = req.params.id;
+
+  MongoClient.connect(url, function(err, client) {
+    if (err) throw err;
+    var dbo = client.db("id_qr"); 
+    dbo.collection("CLUES").aggregate([{ "$match": { "CLUES_JURISDICCIÓN": id }}, { $group: {_id: { Localidad: "$CLUES_LOCALIDAD"}}},{ $sort : { "_id.Localidad": 1 } }]).toArray(function(err, result) {
+    if (err) throw err;
+    else{
+      //console.log(result);
+      res.send(result);
+    }
+    client.close();
+    });
+    });
+
+});
+
+// Municipio - Jurisdicción
+app.get('/api/v1/database/municipio/jurisdiccion/:id', (req, res) => {
+
+  let id = req.params.id;
+
+  MongoClient.connect(url, function(err, client) {
+    if (err) throw err;
+    var dbo = client.db("id_qr"); 
+    dbo.collection("CLUES").aggregate([{ "$match": { "CLUES_MUNICIPIO": id }}, { $group: {_id: { Jurisdiccion: "$CLUES_JURISDICCIÓN"}}},{ $sort : { "_id.Jurisdiccion": 1 } }]).toArray(function(err, result) {
+    if (err) throw err;
+    else{
+      //console.log(result);
+      res.send(result);
+    }
+    client.close();
+    });
+    });
+
+});
+
+// Municipio - Localidades
+app.get('/api/v1/database/municipio/localidad/:id', (req, res) => {
+
+  let id = req.params.id;
+
+  MongoClient.connect(url, function(err, client) {
+    if (err) throw err;
+    var dbo = client.db("id_qr"); 
+    dbo.collection("CLUES").aggregate([{ "$match": { "CLUES_MUNICIPIO": id }}, { $group: {_id: { Localidad: "$CLUES_LOCALIDAD"}}},{ $sort : { "_id.Localidad": 1 } }]).toArray(function(err, result) {
+    if (err) throw err;
+    else{
+      //console.log(result);
+      res.send(result);
+    }
+    client.close();
+    });
+    });
+
+});
+
+// Jurisdicción, Muncipio - Localidades
+app.get('/api/v1/database/jurisdiccion-municipio/localidad/:juris&:mun', (req, res) => {
+
+  let jurisdiccion = req.params.juris;
+  let municipio = req.params.mun;
+  console.log(jurisdiccion+" "+municipio);
+
+  MongoClient.connect(url, function(err, client) {
+    if (err) throw err;
+    var dbo = client.db("id_qr"); 
+    dbo.collection("CLUES").aggregate([{ "$match": { "CLUES_MUNICIPIO": municipio, "CLUES_JURISDICCIÓN": jurisdiccion }}, { $group: {_id: { Localidad: "$CLUES_LOCALIDAD"}}},{ $sort : { "_id.Localidad": 1 } }]).toArray(function(err, result) {
+    if (err) throw err;
+    else{
+      //console.log(result);
+      res.send(result);
+    }
+    client.close();
+    });
+    });
+
+});
+
+// Jurisdicción, Muncipio, Localidad - Unidad de Salud, CLUES
+app.get('/api/v1/database/jurisdiccion-municipio-localidad/us-clues/:juris&:mun&:loc', (req, res) => {
+
+  let jurisdiccion = req.params.juris;
+  let municipio = req.params.mun;
+  let localidad = req.params.loc;
+  console.log(jurisdiccion+" "+municipio+ " "+localidad);
+
+  MongoClient.connect(url, function(err, client) {
+    if (err) throw err;
+    var dbo = client.db("id_qr"); 
+    dbo.collection("CLUES").aggregate([{ "$match": { "CLUES_MUNICIPIO": municipio, "CLUES_JURISDICCIÓN": jurisdiccion,  "CLUES_LOCALIDAD": localidad}}, { $group: {_id: { Unidad: "$NOMBRE DE LA UNIDAD", CLUES: "$CLUES"}}},{ $sort : {  "_id.Unidad": 1, "_id.CLUES": 1 } }]).toArray(function(err, result) {
+    if (err) throw err;
+    else{
+      //console.log(result);
+      res.send(result);
+    }
+    client.close();
+    });
+    });
+
+});
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
