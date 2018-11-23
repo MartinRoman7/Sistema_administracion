@@ -8,7 +8,7 @@ scanner.addListener('scan',function(content){
     alert('Escaneo de código QR realizado');
 
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost:3000/qrdata/'+content, true);
+    xhr.open('GET', 'https:///cadena-de-frio.fcs-dev.net/qrdata/'+content, true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         // do something to response
