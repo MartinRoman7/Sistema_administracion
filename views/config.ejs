@@ -48,7 +48,7 @@
                 $("ul#second_jurisdiccion_inserted").empty();
 
 
-                $.getJSON("http://localhost:3000/api/v1/database/estado/municipio/"+estado, function(data){
+                $.getJSON("https://cadena-de-frio.fcs-dev.net/api/v1/database/estado/municipio/"+estado, function(data){
                     $.each(data, function (index, value) {
                         console.log(value._id.Municipio);
                         $("ul#second_municipio_inserted").append("<li><a id=\"second_municipio_selected\" value=\""+value._id.Municipio+"\" class=\"dropdown-item\">"+value._id.Municipio+"</a></li>"); 
@@ -65,7 +65,7 @@
                             //$("div#title_localidad").show();
                             //$("div#second_localidad").show();
 
-                            $.getJSON("http://localhost:3000/api/v1/database/municipio/jurisdiccion/"+municipio, function(data){
+                            $.getJSON("https://cadena-de-frio.fcs-dev.net/api/v1/database/municipio/jurisdiccion/"+municipio, function(data){
                                 $.each(data, function (index, value) {
                                     console.log(value._id.Jurisdiccion);
                                     $("ul#second_jurisdiccion_inserted").append("<li><a id=\"second_jurisdiccion_selected\" value=\""+value._id.Jurisdiccion+"\" class=\"dropdown-item\">"+value._id.Jurisdiccion+"</a></li>");
@@ -79,7 +79,7 @@
                                         $("h4#jurisdiccion_text").html(jurisdiccion.toLowerCase());
                                         $("ul#second_localidad_inserted").empty();
 
-                                        $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion-municipio/localidad/"+jurisdiccion+"&"+municipio, function(data){
+                                        $.getJSON("https://cadena-de-frio.fcs-dev.net/api/v1/database/jurisdiccion-municipio/localidad/"+jurisdiccion+"&"+municipio, function(data){
                                             $.each(data, function (index, value) {
                                                 console.log(value._id.Localidad);
                                                 $("ul#second_localidad_inserted").append("<li><a id=\"second_localidad_selected\" value=\""+value._id.Localidad+"\" class=\"dropdown-item\">"+value._id.Localidad+"</a></li>");
@@ -98,7 +98,7 @@
                                                     $("ul#second_us_inserted").empty();
                                                     $("ul#second_clues_inserted").empty();
 
-                                                    $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
+                                                    $.getJSON("https://cadena-de-frio.fcs-dev.net/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
                                                         $.each(data, function (index, value) {
                                                             console.log("unidad API: "+value._id.Unidad);
                                                             console.log("clues API: "+value._id.CLUES);
@@ -118,7 +118,7 @@
 
                                                             $("h4#us_text").html(unidad.toLowerCase());
 
-                                                            $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
+                                                            $.getJSON("https://cadena-de-frio.fcs-dev.net/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
                                                                 $.each(data, function (index, value) {
                                                                     if( value._id.Unidad == unidad){
                                                                         console.log(value._id.CLUES);
@@ -137,7 +137,7 @@
 
                                                             $("h4#clues_text").html(clues.toLowerCase());
 
-                                                            $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
+                                                            $.getJSON("https://cadena-de-frio.fcs-dev.net/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
                                                                 $.each(data, function (index, value) {
                                                                     if( value._id.CLUES == clues){
                                                                         console.log(value._id.Unidad);
@@ -157,7 +157,7 @@
                         });   
                 });
 
-                $.getJSON("http://localhost:3000/api/v1/database/estado/jurisdiccion/"+estado, function(data){
+                $.getJSON("https://cadena-de-frio.fcs-dev.net/api/v1/database/estado/jurisdiccion/"+estado, function(data){
                     $.each(data, function (index, value) {
                         console.log(value._id.Jurisdiccion);
                         $("ul#second_jurisdiccion_inserted").append("<li><a id=\"second_jurisdiccion_selected\" value=\""+value._id.Jurisdiccion+"\" class=\"dropdown-item\">"+value._id.Jurisdiccion+"</a></li>"); 
@@ -171,7 +171,7 @@
                             $("h4#jurisdiccion_text").html(jurisdiccion.toLowerCase());
                             $("ul#second_municipio_inserted").empty();
 
-                            $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion/municipio/"+jurisdiccion, function(data){
+                            $.getJSON("https://cadena-de-frio.fcs-dev.net/api/v1/database/jurisdiccion/municipio/"+jurisdiccion, function(data){
                                 $.each(data, function (index, value) {
                                     console.log(value._id.Municipio);
                                     $("ul#second_municipio_inserted").append("<li><a id=\"second_municipio_selected\" value=\""+value._id.Municipio+"\" class=\"dropdown-item\">"+value._id.Municipio+"</a></li>");   
@@ -185,7 +185,7 @@
                                         $("h4#municipio_text").html(municipio.toLowerCase());
                                         $("ul#second_localidad_inserted").empty();
 
-                                        $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion-municipio/localidad/"+jurisdiccion+"&"+municipio, function(data){
+                                        $.getJSON("https://cadena-de-frio.fcs-dev.net/api/v1/database/jurisdiccion-municipio/localidad/"+jurisdiccion+"&"+municipio, function(data){
                                             $.each(data, function (index, value) {
                                                 console.log(value._id.Localidad);
                                                 $("ul#second_localidad_inserted").append("<li><a id=\"second_localidad_selected\" value=\""+value._id.Localidad+"\" class=\"dropdown-item\">"+value._id.Localidad+"</a></li>");
@@ -204,7 +204,7 @@
                                                     $("ul#second_us_inserted").empty();
                                                     $("ul#second_clues_inserted").empty();
 
-                                                    $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
+                                                    $.getJSON("https://cadena-de-frio.fcs-dev.net/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
                                                         $.each(data, function (index, value) {
                                                             console.log(value._id.Unidad);
                                                             console.log(value._id.CLUES);
@@ -224,7 +224,7 @@
 
                                                             $("h4#us_text").html(unidad.toLowerCase());
 
-                                                            $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
+                                                            $.getJSON("https://cadena-de-frio.fcs-dev.net/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
                                                                 $.each(data, function (index, value) {
                                                                     if( value._id.Unidad == unidad){
                                                                         console.log(value._id.CLUES);
@@ -243,7 +243,7 @@
 
                                                             $("h4#clues_text").html(clues.toLowerCase());
 
-                                                            $.getJSON("http://localhost:3000/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
+                                                            $.getJSON("https://cadena-de-frio.fcs-dev.net/api/v1/database/jurisdiccion-municipio-localidad/us-clues/"+jurisdiccion+"&"+municipio+"&"+localidad, function(data){
                                                                 $.each(data, function (index, value) {
                                                                     if( value._id.CLUES == clues){
                                                                         console.log(value._id.Unidad);
@@ -271,7 +271,7 @@
                 codigo = $("#codigo_text").attr("value");
                 console.log(codigo);
                 console.log(estado);
-                $.post("http://localhost:3000/configuracion-actualizada",
+                $.post("https://cadena-de-frio.fcs-dev.net/configuracion-actualizada",
                 {
                     estado: estado,
                     municipio: municipio,
