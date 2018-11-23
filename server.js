@@ -6,6 +6,10 @@
   heroku git:remote -a qr-lector
   heroku git:remote -a cadena-de-frio-admin
   git push heroku master
+
+  git remote rm origin
+  git remote add origin https://github.com/MartinRoman7/Sistema_administracion.git
+  git push origin master
 */
 const express = require('express');
 const app = express();
