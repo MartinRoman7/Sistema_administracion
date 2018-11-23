@@ -30,6 +30,24 @@
         }
     </script>
 
+    <script>
+        function metodo_post(){
+            var xhr = new XMLHttpRequest();
+            console.log('Open');
+            xhr.open('POST', '/administrador', true);
+            console.log('Headers');
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjoiQURNSU4iLCJpYXQiOjE1NDMwMDI3OTYsImV4cCI6MTU0MzAwMzA5Nn0.rq-VPLInKe2hObqf6c8RVA3pqPlfwe4lgOGCzWfz9jA");
+            //xhr.setRequestHeader("token", "");
+            xhr.onload = ( res ) => {
+                // do something to response
+                console.log(res);
+            };
+            console.log('Send');
+            xhr.send();
+        }
+    </script>
+
     <style>
         .btn-link{
             color: #B8B9BA;
@@ -53,7 +71,8 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <form action="/administrador" method="POST">
+                    <!-- <form action="/administrador" method="POST"> -->
+                    <form onsubmit="metodo_post()" >
                         <button type="submit" class="btn btn-link" style="text-decoration:none">Administrador</button>
                     </form>
                 </li>
@@ -118,6 +137,7 @@
                             
                         </div>
                     </div>
+                    
                 </form>   
                 
                 <div class="bottom-buffer" style="margin-left: 8px; margin-top: 50px;">

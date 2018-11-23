@@ -11,7 +11,11 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 //const mongoose = require('mongoose');
+
+const { verificaToken } = require('../Sistema_Completo/middlewares/autenticacion'); 
+let token;
 
 // MongoDB
 // Name DB: id_qr
@@ -67,7 +71,7 @@ app.post('/registro', (req, res) => {
 });
 
 // Configuracion (config.ejs)
-app.post('/configuracion', (req, res) => { 
+app.post('/configuracion', verificaToken, (req, res) => { 
   
   let body = req.body;
   let id_codigo = body.codigoTable;
@@ -149,7 +153,7 @@ app.post('/sesion', (req, res) => {
   let body = req.body;
   let user = body.name;
   let pass = body.password;
-  //console.log(body);
+  console.log(body);
 
   if(user == "" || pass == ""){
     res.render('sesion.ejs', {mensaje: "Los campos deben tener valores."});
@@ -175,14 +179,40 @@ app.post('/sesion', (req, res) => {
                 MongoClient.connect(url, function(err, client) {
                   if (err) throw err;
                   var dbo = client.db("id_qr"); 
-                dbo.collection("ID_Raspberry").find({}).toArray(function(err, result) {
+                dbo.collection("ID_Raspberry").find({}).toArray(function(err, result_RB) {
                   if (err) throw err;
                   else{
-                      res.render('admin.ejs', {mensaje: "", codigos: result});
+
+                    token = jwt.sign({
+                      usuario: result.usuario
+                    }, 'el-seed-desarrollo', { expiresIn: 60 * 5 });
+                    console.log("Token: "+token);
+    
+                    /*let data = res.json({
+                      mensaje: "",
+                      codigos: result,
+                      token
+                    });*/
+    
+                    let data = {
+                      mensaje: "",
+                      codigos: result_RB,
+                      token
+                    };
+
+                    // Send token
+                    module.exports.tokenvar = token;
+                    //console.log(data);
+
+                    //res.render('admin.ejs', {mensaje: "", codigos: result});
+                    res.render('admin.ejs', data);
+
                     }
                   });
                   client.close();
                   });
+
+                  
 
                 //res.sendFile( __dirname + '/pages/admin.html' );
               }else{
@@ -207,7 +237,9 @@ app.post('/sesion', (req, res) => {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 // Administrador
-app.post('/administrador', (req, res) => {
+app.post('/administrador', verificaToken, (req, res) => {
+
+  console.log(req);
 
   MongoClient.connect(url, function(err, client) {
     if (err) throw err;
@@ -217,6 +249,7 @@ app.post('/administrador', (req, res) => {
     else{
       console.log(result);
       res.render('admin.ejs', {mensaje: "", codigos: result});
+      console.log("Pasó render");
       }
     });
     client.close();
@@ -227,7 +260,7 @@ app.post('/administrador', (req, res) => {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 // Registro 
-app.post('/registro-validate', (req, res) => {
+app.post('/registro-validate', verificaToken,(req, res) => {
   
   let body = req.body;
   console.log(body);
@@ -330,7 +363,7 @@ app.get('/qrdata/:id', function (req, res) {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 // Insertar en base de datos con método POST
-app.post('/quotes', (req, res) => {
+app.post('/quotes', verificaToken, (req, res) => {
   
   let body = req.body
   
@@ -365,7 +398,7 @@ app.post('/quotes', (req, res) => {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 // Búsqueda de códigos
-app.post('/buscar', (req, res) => {
+app.post('/buscar', verificaToken,(req, res) => {
   //let codigo = req.body.codigo;
   let objcodigo = req.body;
   //let objcodigo = body.codigo;
@@ -381,7 +414,22 @@ app.post('/buscar', (req, res) => {
       else{
         if (result.length){ 
           console.log('Código encontrado');
-          res.render('admin.ejs', {mensaje: "", codigos: result});
+
+          let token = jwt.sign({
+            mensaje: "",
+            codigos: result,
+          }, 'el-seed-desarrollo', { expiresIn: 60 * 60 });
+
+          let data = res.json({
+            mensaje: "",
+            codigos: result,
+            token
+          });
+        
+          //res.render('admin.ejs', {mensaje: "", codigos: result});
+          res.render('admin.ejs', data);
+
+          //res.render('admin.ejs', {mensaje: "", codigos: result});
         } else{
           client.close(); //Closing last connection
           console.log('Código no encontrado');
@@ -392,7 +440,22 @@ app.post('/buscar', (req, res) => {
           dbo.collection("ID_Raspberry").find({}).toArray(function(err, result) {
             if (err) throw err;
             else{
-                res.render('admin.ejs', {mensaje: "No existe código en la DB", codigos: result});
+
+              let token = jwt.sign({
+                mensaje: "",
+                codigos: result,
+              }, 'el-seed-desarrollo', { expiresIn: 60 * 60 });
+
+              let data = res.json({
+                mensaje: "No existe código en la DB",
+                codigos: result,
+                token
+              });
+            
+              //res.render('admin.ejs', {mensaje: "", codigos: result});
+              res.render('admin.ejs', data);
+
+              //res.render('admin.ejs', {mensaje: "No existe código en la DB", codigos: result});
               }
             });
             client.close();
@@ -527,7 +590,7 @@ app.post('/buscar', (req, res) => {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 // Actualizar configuración del dispositivo
-app.post('/configuracion-actualizada', (req, res) => { 
+app.post('/configuracion-actualizada', verificaToken, (req, res) => { 
   
   let body = req.body;
   console.log(body);
@@ -565,7 +628,7 @@ app.post('/configuracion-actualizada', (req, res) => {
 
 // API 
 
-app.get('/api/v1/database', (req, res) => {
+app.get('/api/v1/database', verificaToken, (req, res) => {
 
   MongoClient.connect(url, function(err, client) {
     if (err) throw err;
@@ -583,7 +646,7 @@ app.get('/api/v1/database', (req, res) => {
 });
 
 // Estado - Jurisdicción
-app.get('/api/v1/database/estado/jurisdiccion/:id', (req, res) => {
+app.get('/api/v1/database/estado/jurisdiccion/:id', verificaToken, (req, res) => {
 
   let id = req.params.id;
 
@@ -603,7 +666,7 @@ app.get('/api/v1/database/estado/jurisdiccion/:id', (req, res) => {
 });
 
 // Estado - Municipios
-app.get('/api/v1/database/estado/municipio/:id', (req, res) => {
+app.get('/api/v1/database/estado/municipio/:id', verificaToken, (req, res) => {
 
   let id = req.params.id;
 
@@ -623,7 +686,7 @@ app.get('/api/v1/database/estado/municipio/:id', (req, res) => {
 });
 
 // Jurisdicción - Municipios
-app.get('/api/v1/database/jurisdiccion/municipio/:id', (req, res) => {
+app.get('/api/v1/database/jurisdiccion/municipio/:id', verificaToken, (req, res) => {
 
   let id = req.params.id;
 
@@ -643,7 +706,7 @@ app.get('/api/v1/database/jurisdiccion/municipio/:id', (req, res) => {
 });
 
 // Jurisdicción - Localidades
-app.get('/api/v1/database/jurisdiccion/localidad/:id', (req, res) => {
+app.get('/api/v1/database/jurisdiccion/localidad/:id', verificaToken, (req, res) => {
 
   let id = req.params.id;
 
@@ -663,7 +726,7 @@ app.get('/api/v1/database/jurisdiccion/localidad/:id', (req, res) => {
 });
 
 // Municipio - Jurisdicción
-app.get('/api/v1/database/municipio/jurisdiccion/:id', (req, res) => {
+app.get('/api/v1/database/municipio/jurisdiccion/:id', verificaToken, (req, res) => {
 
   let id = req.params.id;
 
@@ -683,7 +746,7 @@ app.get('/api/v1/database/municipio/jurisdiccion/:id', (req, res) => {
 });
 
 // Municipio - Localidades
-app.get('/api/v1/database/municipio/localidad/:id', (req, res) => {
+app.get('/api/v1/database/municipio/localidad/:id', verificaToken, (req, res) => {
 
   let id = req.params.id;
 
@@ -703,7 +766,7 @@ app.get('/api/v1/database/municipio/localidad/:id', (req, res) => {
 });
 
 // Jurisdicción, Muncipio - Localidades
-app.get('/api/v1/database/jurisdiccion-municipio/localidad/:juris&:mun', (req, res) => {
+app.get('/api/v1/database/jurisdiccion-municipio/localidad/:juris&:mun', verificaToken, (req, res) => {
 
   let jurisdiccion = req.params.juris;
   let municipio = req.params.mun;
@@ -725,7 +788,7 @@ app.get('/api/v1/database/jurisdiccion-municipio/localidad/:juris&:mun', (req, r
 });
 
 // Jurisdicción, Muncipio, Localidad - Unidad de Salud, CLUES
-app.get('/api/v1/database/jurisdiccion-municipio-localidad/us-clues/:juris&:mun&:loc', (req, res) => {
+app.get('/api/v1/database/jurisdiccion-municipio-localidad/us-clues/:juris&:mun&:loc', verificaToken, (req, res) => {
 
   let jurisdiccion = req.params.juris;
   let municipio = req.params.mun;
@@ -746,7 +809,6 @@ app.get('/api/v1/database/jurisdiccion-municipio-localidad/us-clues/:juris&:mun&
     });
 
 });
-
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////
